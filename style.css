@@ -7588,3 +7588,34 @@ select:focus-visible {
 .ph-chart-source a:hover {
     text-decoration: underline;
 }
+
+
+.ph-malaysia-panel {
+    width: 100%;
+    margin-top: 24px;
+    padding: 26px;
+}
+
+.ph-malaysia-panel #malaysiaAdoptionChart {
+    width: 100%;
+    min-height: 350px;
+}
+
+.ph-chart-source {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee9e1;
+    font-size: 12px;
+    color: #8b9188;
+}
+
+.ph-chart-source a {
+    color: #71836b;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.ph-chart-source a:hover {
+    text-decoration: underline;
+}
+
