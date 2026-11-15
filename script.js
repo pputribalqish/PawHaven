@@ -1348,3 +1348,5 @@ function createMalaysiaAdoptionChart() {
 
     element._apexChart.render();
 }
+
+createMalaysiaAdoptionChart();
