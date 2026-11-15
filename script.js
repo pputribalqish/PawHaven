@@ -635,6 +635,8 @@ createMalaysiaAdoptionChart();
     const animals = getAnimals();
     const applications = getApplications();
 
+
+
     // ANIMALS BY SPECIES - DONUT CHART
     const speciesChartElement = getElement("statusChart");
 
@@ -644,6 +646,9 @@ createMalaysiaAdoptionChart();
         animals.forEach(animal => {
             const species = animal.type || "Other";
             speciesCounts[species] = (speciesCounts[species] || 0) + 1;
+
+createMalaysiaAdoptionChart();
+            
         });
 
         const speciesLabels = Object.keys(speciesCounts);
@@ -1348,6 +1353,96 @@ function createMalaysiaAdoptionChart() {
     element._apexChart = new ApexCharts(element, options);
 
     element._apexChart.render();
+}
+
+
+function createMalaysiaAdoptionChart() {
+
+    const chartElement = document.getElementById(
+        "malaysiaAdoptionChart"
+    );
+
+    if (!chartElement) return;
+
+    if (typeof ApexCharts === "undefined") {
+        console.error("ApexCharts is not loaded.");
+        return;
+    }
+
+    if (chartElement._apexChart) {
+        chartElement._apexChart.destroy();
+    }
+
+    const options = {
+
+        series: [{
+            name: "Animals Adopted",
+            data: [235, 187, 153]
+        }],
+
+        chart: {
+            type: "bar",
+            height: 350,
+            toolbar: {
+                show: false
+            },
+            fontFamily: "DM Sans, sans-serif"
+        },
+
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: "35%",
+                borderRadius: 7
+            }
+        },
+
+        colors: ["#71836b"],
+
+        dataLabels: {
+            enabled: true,
+            style: {
+                colors: ["#71836b"]
+            }
+        },
+
+        xaxis: {
+            categories: ["2023", "2024", "2025"]
+        },
+
+        yaxis: {
+            min: 0,
+            max: 250,
+            tickAmount: 5,
+            title: {
+                text: "Number of animals adopted"
+            }
+        },
+
+        grid: {
+            borderColor: "#eee9e1",
+            strokeDashArray: 4
+        },
+
+        legend: {
+            show: false
+        },
+
+        tooltip: {
+            y: {
+                formatter: function(value) {
+                    return value + " animals adopted";
+                }
+            }
+        }
+    };
+
+    chartElement._apexChart = new ApexCharts(
+        chartElement,
+        options
+    );
+
+    chartElement._apexChart.render();
 }
 
 
