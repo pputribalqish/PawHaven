@@ -1048,6 +1048,7 @@ function updateApplicationStatus(id, newStatus) {
 
     refreshAllStatistics();
     createDashboardCharts();
+    createMalaysiaAdoptionChart();
 
     alert("Application status updated successfully!");
 }
@@ -1349,4 +1350,4 @@ function createMalaysiaAdoptionChart() {
     element._apexChart.render();
 }
 
-createMalaysiaAdoptionChart();
+
