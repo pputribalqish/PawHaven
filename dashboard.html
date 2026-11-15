@@ -148,55 +148,86 @@
 
 
             <!-- STATISTICS -->
-            <section class="ph-section">
-                <div class="ph-section-heading">
-                    <div>
-                        <span class="ph-eyebrow">AT A GLANCE</span>
-                        <h2>Shelter Overview</h2>
-                    </div>
-                    <span class="ph-updated">Your shelter statistics</span>
+          
+<!-- CHARTS -->
+<section class="ph-section">
+
+    <div class="ph-section-heading">
+        <div>
+            <span class="ph-eyebrow">SHELTER ANALYTICS</span>
+            <h2>Understanding the numbers</h2>
+        </div>
+    </div>
+
+    <!-- ORIGINAL TWO CHARTS -->
+    <div class="ph-chart-grid">
+
+        <!-- APPROVED ADOPTIONS -->
+        <div class="ph-panel ph-chart-panel">
+
+            <div class="ph-panel-heading">
+                <div>
+                    <h3>Approved Adoptions</h3>
+                    <p>Monthly adoption activity</p>
                 </div>
 
-                <div class="ph-stats-grid">
+                <span class="ph-panel-icon">↗</span>
+            </div>
 
-                    <div class="ph-stat-card">
-                        <div class="ph-stat-top">
-                            <span class="ph-stat-icon sage-icon">🐾</span>
-                            <span class="ph-stat-caption">ANIMAL RECORDS</span>
-                        </div>
-                        <strong id="totalAnimals">0</strong>
-                        <p>Total animals registered</p>
-                    </div>
+            <div id="adoptionChart"></div>
 
-                    <div class="ph-stat-card">
-                        <div class="ph-stat-top">
-                            <span class="ph-stat-icon peach-icon">♡</span>
-                            <span class="ph-stat-caption">AVAILABLE</span>
-                        </div>
-                        <strong id="availableAnimals">0</strong>
-                        <p>Looking for a forever home</p>
-                    </div>
+        </div>
 
-                    <div class="ph-stat-card">
-                        <div class="ph-stat-top">
-                            <span class="ph-stat-icon lilac-icon">✿</span>
-                            <span class="ph-stat-caption">ADOPTED</span>
-                        </div>
-                        <strong id="adoptedAnimals">0</strong>
-                        <p>Successfully adopted</p>
-                    </div>
 
-                    <div class="ph-stat-card">
-                        <div class="ph-stat-top">
-                            <span class="ph-stat-icon yellow-icon">▤</span>
-                            <span class="ph-stat-caption">PENDING</span>
-                        </div>
-                        <strong id="pendingApplications">0</strong>
-                        <p>Applications awaiting review</p>
-                    </div>
+        <!-- ANIMALS BY SPECIES -->
+        <div class="ph-panel ph-chart-panel">
 
+            <div class="ph-panel-heading">
+                <div>
+                    <h3>Animals by Species</h3>
+                    <p>Distribution of registered animals</p>
                 </div>
-            </section>
+
+                <span class="ph-panel-icon">🐾</span>
+            </div>
+
+            <div id="statusChart"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MALAYSIA ADOPTION STATISTICS -->
+    <div class="ph-panel ph-chart-panel ph-malaysia-panel">
+
+        <div class="ph-panel-heading">
+            <div>
+                <h3>Animal Adoption Trends in Malaysia</h3>
+                <p>Annual adoption figures reported by SPCA Selangor</p>
+            </div>
+
+            <span class="ph-panel-icon">🇲🇾</span>
+        </div>
+
+        <div id="malaysiaAdoptionChart"></div>
+
+        <div class="ph-chart-source">
+            Sources:
+            <a href="https://www.spca.org.my/wp-content/uploads/2024/01/SPCA-Annual-Review-2023.pdf"
+               target="_blank">2023</a> |
+
+            <a href="https://www.spca.org.my/wp-content/uploads/2025/04/SPCA_AR2024c.pdf"
+               target="_blank">2024</a> |
+
+            <a href="https://www.sinardaily.my/article/737775/focus/sports/spca-selangor-launches-world-cup-campaign-to-boost-adoptions"
+               target="_blank">2025</a>
+        </div>
+
+    </div>
+
+</section>
+
 
 
             <!-- CHARTS -->
