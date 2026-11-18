@@ -114,6 +114,7 @@ function getStorageData(key, defaultValue) {
         }
 
         return JSON.parse(savedData);
+
     } catch (error) {
         console.error("Storage error:", error);
         return defaultValue;
@@ -124,6 +125,7 @@ function saveStorageData(key, data) {
     try {
         localStorage.setItem(key, JSON.stringify(data));
         return true;
+
     } catch (error) {
         console.error("Unable to save data:", error);
         return false;
@@ -131,7 +133,11 @@ function saveStorageData(key, data) {
 }
 
 function getAnimals() {
-    const animals = getStorageData("pawhaven_animals", DEFAULT_ANIMALS);
+    const animals = getStorageData(
+        "pawhaven_animals",
+        DEFAULT_ANIMALS
+    );
+
     return Array.isArray(animals) ? animals : DEFAULT_ANIMALS;
 }
 
@@ -174,6 +180,7 @@ function getElement(id) {
 
 function escapeHTML(value) {
     return String(value ?? "").replace(/[&<>"']/g, function (character) {
+
         const characters = {
             "&": "&amp;",
             "<": "&lt;",
@@ -207,11 +214,14 @@ function hideMessage(elementId) {
 
 function getCurrentUser() {
     try {
-        const savedUser = localStorage.getItem("pawhaven_current_user");
+        const savedUser = localStorage.getItem(
+            "pawhaven_current_user"
+        );
 
         if (!savedUser) return null;
 
         return JSON.parse(savedUser);
+
     } catch (error) {
         console.error("Current user error:", error);
         return null;
@@ -235,6 +245,7 @@ function formatDate(date) {
 }
 
 function getStatusClass(status) {
+
     const statusClasses = {
         "Available": "status-available",
         "Adopted": "status-adopted",
@@ -288,12 +299,16 @@ function handleLogin(event) {
         password === DEFAULT_ADMIN.password
     ) {
         loggedInUser = DEFAULT_ADMIN;
+
     } else {
+
         loggedInUser = getUsers().find(function (user) {
+
             return (
                 user.username.toLowerCase() === username.toLowerCase() &&
                 user.password === password
             );
+
         });
     }
 
@@ -312,9 +327,17 @@ function handleLogin(event) {
         role: loggedInUser.role || "user"
     };
 
-    if (saveStorageData("pawhaven_current_user", currentUser)) {
+    if (
+        saveStorageData(
+            "pawhaven_current_user",
+            currentUser
+        )
+    ) {
+
         window.location.href = "dashboard.html";
+
     } else {
+
         showMessage(
             "loginMessage",
             "Unable to save your login session. Please try again."
@@ -338,7 +361,13 @@ function handleRegistration(event) {
     const password = getElement("password")?.value;
     const confirmPassword = getElement("confirmPassword")?.value;
 
-    if (!fullName || !email || !username || !password || !confirmPassword) {
+    if (
+        !fullName ||
+        !email ||
+        !username ||
+        !password ||
+        !confirmPassword
+    ) {
         showMessage(
             "registerMessage",
             "Please complete all required fields."
@@ -346,7 +375,6 @@ function handleRegistration(event) {
         return;
     }
 
-    // Check a terms checkbox if the registration page has one.
     const termsCheckbox =
         getElement("terms") ||
         getElement("agreeTerms") ||
@@ -379,10 +407,12 @@ function handleRegistration(event) {
     const users = getUsers();
 
     const existingUser = users.find(function (user) {
+
         return (
             user.username.toLowerCase() === username.toLowerCase() ||
             user.email.toLowerCase() === email.toLowerCase()
         );
+
     });
 
     if (
@@ -431,13 +461,18 @@ function handleRegistration(event) {
 // =====================================================
 
 function handleLogout(event) {
-    if (event) event.preventDefault();
+
+    if (event) {
+        event.preventDefault();
+    }
 
     localStorage.removeItem("pawhaven_current_user");
+
     window.location.replace("index.html");
 }
 
 function checkLoginSession() {
+
     const currentPage = window.location.pathname
         .split("/")
         .pop()
@@ -452,7 +487,10 @@ function checkLoginSession() {
 
     const currentUser = getCurrentUser();
 
-    if (protectedPages.includes(currentPage) && !currentUser) {
+    if (
+        protectedPages.includes(currentPage) &&
+        !currentUser
+    ) {
         window.location.replace("login.html");
         return;
     }
@@ -472,6 +510,7 @@ function checkLoginSession() {
 // =====================================================
 
 function displayUserProfile() {
+
     const user = getCurrentUser();
 
     if (!user) return;
@@ -482,6 +521,7 @@ function displayUserProfile() {
     const avatar = getElement("adminAvatar");
 
     if (avatar) {
+
         const initials = user.name
             .split(" ")
             .filter(Boolean)
@@ -500,6 +540,7 @@ function displayUserProfile() {
 // =====================================================
 
 function updateDashboardStats() {
+
     const animals = getAnimals();
     const applications = getApplications();
 
@@ -527,6 +568,7 @@ function updateDashboardStats() {
 }
 
 function updateAnimalPageStats() {
+
     const animals = getAnimals();
 
     setText("animalTotalCount", animals.length);
@@ -548,6 +590,7 @@ function updateAnimalPageStats() {
 }
 
 function updateApplicationStats() {
+
     const applications = getApplications();
 
     const pending = applications.filter(
@@ -573,17 +616,18 @@ function updateApplicationStats() {
 }
 
 function refreshAllStatistics() {
+
     updateDashboardStats();
     updateAnimalPageStats();
     updateApplicationStats();
 }
-
 
 // =====================================================
 // 9. DASHBOARD RECENT ANIMALS
 // =====================================================
 
 function displayRecentAnimals() {
+
     const tableBody = getElement("recentAnimalsTable");
 
     if (!tableBody) return;
@@ -591,6 +635,7 @@ function displayRecentAnimals() {
     const recentAnimals = getAnimals().slice(-5).reverse();
 
     if (recentAnimals.length === 0) {
+
         tableBody.innerHTML = `
             <tr>
                 <td colspan="5" class="text-center">
@@ -598,6 +643,7 @@ function displayRecentAnimals() {
                 </td>
             </tr>
         `;
+
         return;
     }
 
@@ -625,30 +671,33 @@ function displayRecentAnimals() {
 // =====================================================
 
 function createDashboardCharts() {
+
     if (typeof ApexCharts === "undefined") {
         console.warn("ApexCharts is not loaded.");
         return;
     }
 
-createMalaysiaAdoptionChart();
+    createMalaysiaAdoptionChart();
 
     const animals = getAnimals();
     const applications = getApplications();
 
 
-
     // ANIMALS BY SPECIES - DONUT CHART
+
     const speciesChartElement = getElement("statusChart");
 
     if (speciesChartElement) {
+
         const speciesCounts = {};
 
         animals.forEach(animal => {
-            const species = animal.type || "Other";
-            speciesCounts[species] = (speciesCounts[species] || 0) + 1;
 
-createMalaysiaAdoptionChart();
-            
+            const species = animal.type || "Other";
+
+            speciesCounts[species] =
+                (speciesCounts[species] || 0) + 1;
+
         });
 
         const speciesLabels = Object.keys(speciesCounts);
@@ -667,15 +716,26 @@ createMalaysiaAdoptionChart();
                     type: "donut",
                     height: 280
                 },
+
                 series: speciesValues,
+
                 labels: speciesLabels,
-                colors: ["#71836b", "#e8b99e", "#b8a9cc", "#d6c6a8"],
+
+                colors: [
+                    "#71836b",
+                    "#e8b99e",
+                    "#b8a9cc",
+                    "#d6c6a8"
+                ],
+
                 legend: {
                     position: "bottom"
                 },
+
                 dataLabels: {
                     enabled: true
                 },
+
                 plotOptions: {
                     pie: {
                         donut: {
@@ -689,10 +749,13 @@ createMalaysiaAdoptionChart();
         speciesChartElement._apexChart.render();
     }
 
+
     // APPROVED ADOPTION APPLICATIONS PER MONTH - AREA CHART
+
     const adoptionChartElement = getElement("adoptionChart");
 
     if (adoptionChartElement) {
+
         const year = new Date().getFullYear();
 
         const monthLabels = [
@@ -703,15 +766,23 @@ createMalaysiaAdoptionChart();
         const monthlyAdoptions = Array(12).fill(0);
 
         applications.forEach(application => {
-            if (application.status !== "Approved" || !application.date) {
+
+            if (
+                application.status !== "Approved" ||
+                !application.date
+            ) {
                 return;
             }
 
             const date = new Date(application.date + "T00:00:00");
 
-            if (!isNaN(date.getTime()) && date.getFullYear() === year) {
+            if (
+                !isNaN(date.getTime()) &&
+                date.getFullYear() === year
+            ) {
                 monthlyAdoptions[date.getMonth()]++;
             }
+
         });
 
         if (adoptionChartElement._apexChart) {
@@ -730,18 +801,23 @@ createMalaysiaAdoptionChart();
                         show: false
                     }
                 },
+
                 series: [{
                     name: "Approved Adoptions",
                     data: monthlyAdoptions
                 }],
+
                 xaxis: {
                     categories: monthLabels
                 },
+
                 colors: ["#71836b"],
+
                 stroke: {
                     curve: "smooth",
                     width: 3
                 },
+
                 fill: {
                     type: "gradient",
                     gradient: {
@@ -749,16 +825,20 @@ createMalaysiaAdoptionChart();
                         opacityTo: 0.05
                     }
                 },
+
                 dataLabels: {
                     enabled: false
                 },
+
                 grid: {
                     borderColor: "#e9e6de"
                 },
+
                 yaxis: {
                     min: 0,
                     forceNiceScale: true
                 },
+
                 legend: {
                     show: false
                 }
@@ -775,11 +855,13 @@ createMalaysiaAdoptionChart();
 // =====================================================
 
 function renderAnimalRows(animals) {
+
     const tableBody = getElement("animalsTable");
 
     if (!tableBody) return;
 
     if (animals.length === 0) {
+
         tableBody.innerHTML = `
             <tr>
                 <td colspan="7" class="text-center">
@@ -787,40 +869,58 @@ function renderAnimalRows(animals) {
                 </td>
             </tr>
         `;
+
         return;
     }
 
     tableBody.innerHTML = animals.map(animal => `
+
         <tr>
+
             <td>${escapeHTML(animal.name)}</td>
+
             <td>${escapeHTML(animal.type)}</td>
+
             <td>${escapeHTML(animal.breed)}</td>
+
             <td>${escapeHTML(animal.age)}</td>
+
             <td>${escapeHTML(animal.gender)}</td>
+
             <td>
                 <span class="status-badge ${getStatusClass(animal.status)}">
                     ${escapeHTML(animal.status)}
                 </span>
             </td>
+
             <td>
                 <button
                     class="btn btn-sm btn-outline-danger"
                     type="button"
                     onclick="deleteAnimal(${Number(animal.id)})"
-                    aria-label="Delete ${escapeHTML(animal.name)}"
-                >
+                    aria-label="Delete ${escapeHTML(animal.name)}">
+
                     <i class="fas fa-trash"></i>
+
                 </button>
             </td>
+
         </tr>
+
     `).join("");
 }
 
+
 function displayAnimals() {
+
     renderAnimalRows(getAnimals());
 }
 
+
+// ADD ANIMAL
+
 function addAnimal(event) {
+
     event.preventDefault();
 
     const name = getElement("animalName")?.value.trim();
@@ -831,7 +931,9 @@ function addAnimal(event) {
     const status = getElement("animalStatus")?.value;
 
     if (!name || !type || !breed || !age || !gender || !status) {
+
         alert("Please complete all animal details.");
+
         return;
     }
 
@@ -848,25 +950,36 @@ function addAnimal(event) {
     });
 
     if (!saveAnimals(animals)) {
+
         alert("Unable to save animal record.");
+
         return;
     }
 
     const form = getElement("animalForm");
 
-    if (form) form.reset();
+    if (form) {
+        form.reset();
+    }
 
     closeAnimalModal();
 
-    displayAnimals();
+    refreshAnimalManagementView();
+
     displayRecentAnimals();
+
     refreshAllStatistics();
+
     createDashboardCharts();
 
     alert("Animal record added successfully!");
 }
 
+
+// DELETE ANIMAL
+
 function deleteAnimal(id) {
+
     const confirmDelete = confirm(
         "Are you sure you want to delete this animal record?"
     );
@@ -879,15 +992,22 @@ function deleteAnimal(id) {
 
     saveAnimals(animals);
 
-    displayAnimals();
+    refreshAnimalManagementView();
+
     displayRecentAnimals();
+
     refreshAllStatistics();
+
     createDashboardCharts();
 
     alert("Animal record deleted successfully!");
 }
 
+
+// OPEN ANIMAL MODAL
+
 function openAnimalModal() {
+
     const modal = getElement("addAnimalModal");
 
     if (modal) {
@@ -895,7 +1015,11 @@ function openAnimalModal() {
     }
 }
 
+
+// CLOSE ANIMAL MODAL
+
 function closeAnimalModal() {
+
     const modal = getElement("addAnimalModal");
 
     if (modal) {
@@ -903,13 +1027,18 @@ function closeAnimalModal() {
     }
 }
 
+
+// ORIGINAL SEARCH AND FILTER FALLBACK
+
 function setupAnimalSearch() {
+
     const searchInput = getElement("animalSearch");
     const filterInput = getElement("animalFilter");
 
     if (!searchInput && !filterInput) return;
 
     function filterAnimals() {
+
         const searchValue = searchInput
             ? searchInput.value.toLowerCase().trim()
             : "";
@@ -919,8 +1048,11 @@ function setupAnimalSearch() {
             : "";
 
         const filteredAnimals = getAnimals().filter(animal => {
+
             const name = String(animal.name || "").toLowerCase();
+
             const type = String(animal.type || "").toLowerCase();
+
             const breed = String(animal.breed || "").toLowerCase();
 
             const matchesSearch =
@@ -929,7 +1061,8 @@ function setupAnimalSearch() {
                 breed.includes(searchValue);
 
             const matchesStatus =
-                filterValue === "" || animal.status === filterValue;
+                filterValue === "" ||
+                animal.status === filterValue;
 
             return matchesSearch && matchesStatus;
         });
@@ -951,12 +1084,17 @@ function setupAnimalSearch() {
 // 12. APPLICATION MANAGEMENT
 // =====================================================
 
+
+// DISPLAY APPLICATION TABLE
+
 function renderApplicationRows(applications) {
+
     const tableBody = getElement("applicationsTable");
 
     if (!tableBody) return;
 
     if (applications.length === 0) {
+
         tableBody.innerHTML = `
             <tr>
                 <td colspan="7" class="text-center">
@@ -964,48 +1102,80 @@ function renderApplicationRows(applications) {
                 </td>
             </tr>
         `;
+
         return;
     }
 
     tableBody.innerHTML = applications.map((application, index) => `
+
         <tr>
+
             <td>${index + 1}</td>
+
             <td>${escapeHTML(application.applicant)}</td>
+
             <td>${escapeHTML(application.animal)}</td>
+
             <td>${escapeHTML(application.email)}</td>
+
             <td>${formatDate(application.date)}</td>
+
             <td>
                 <span class="status-badge ${getStatusClass(application.status)}">
                     ${escapeHTML(application.status)}
                 </span>
             </td>
+
             <td>
+
                 <select
                     class="form-select form-select-sm status-select"
                     aria-label="Update application status"
-                    onchange="updateApplicationStatus(${Number(application.id)}, this.value)"
-                >
-                    <option value="Pending" ${application.status === "Pending" ? "selected" : ""}>
+                    onchange="updateApplicationStatus(${Number(application.id)}, this.value)">
+
+                    <option
+                        value="Pending"
+                        ${application.status === "Pending" ? "selected" : ""}>
                         Pending
                     </option>
-                    <option value="Approved" ${application.status === "Approved" ? "selected" : ""}>
+
+                    <option
+                        value="Approved"
+                        ${application.status === "Approved" ? "selected" : ""}>
                         Approved
                     </option>
-                    <option value="Declined" ${application.status === "Declined" ? "selected" : ""}>
+
+                    <option
+                        value="Declined"
+                        ${application.status === "Declined" ? "selected" : ""}>
                         Declined
                     </option>
+
                 </select>
+
             </td>
+
         </tr>
+
     `).join("");
 }
 
+
 function displayApplications() {
+
     renderApplicationRows(getApplications());
 }
 
+
+// UPDATE APPLICATION STATUS
+
 function updateApplicationStatus(id, newStatus) {
-    const validStatuses = ["Pending", "Approved", "Declined"];
+
+    const validStatuses = [
+        "Pending",
+        "Approved",
+        "Declined"
+    ];
 
     if (!validStatuses.includes(newStatus)) return;
 
@@ -1020,12 +1190,17 @@ function updateApplicationStatus(id, newStatus) {
     applications[applicationIndex].status = newStatus;
 
     if (!saveApplications(applications)) {
+
         alert("Unable to update application status.");
+
         return;
     }
 
-    // Update the animal record based on all applications for that animal.
+
+    // Update the animal record based on its applications.
+
     const selectedApplication = applications[applicationIndex];
+
     const animals = getAnimals();
 
     const relatedAnimal = animals.find(
@@ -1033,14 +1208,20 @@ function updateApplicationStatus(id, newStatus) {
     );
 
     if (relatedAnimal) {
+
         const hasApprovedApplication = applications.some(application =>
+
             application.animal === selectedApplication.animal &&
             application.status === "Approved"
+
         );
 
         if (hasApprovedApplication) {
+
             relatedAnimal.status = "Adopted";
+
         } else if (relatedAnimal.status === "Adopted") {
+
             relatedAnimal.status = "Available";
         }
 
@@ -1048,23 +1229,33 @@ function updateApplicationStatus(id, newStatus) {
     }
 
     displayApplications();
-    displayAnimals();
+
+    refreshAnimalManagementView();
+
     displayRecentAnimals();
 
     refreshAllStatistics();
+
     createDashboardCharts();
+
     createMalaysiaAdoptionChart();
 
     alert("Application status updated successfully!");
 }
 
+
+// APPLICATION SEARCH AND FILTER
+
 function setupApplicationSearch() {
+
     const searchInput = getElement("applicationSearch");
+
     const filterInput = getElement("applicationFilter");
 
     if (!searchInput && !filterInput) return;
 
     function filterApplications() {
+
         const searchValue = searchInput
             ? searchInput.value.toLowerCase().trim()
             : "";
@@ -1074,9 +1265,18 @@ function setupApplicationSearch() {
             : "";
 
         const filteredApplications = getApplications().filter(application => {
-            const applicant = String(application.applicant || "").toLowerCase();
-            const animal = String(application.animal || "").toLowerCase();
-            const email = String(application.email || "").toLowerCase();
+
+            const applicant = String(
+                application.applicant || ""
+            ).toLowerCase();
+
+            const animal = String(
+                application.animal || ""
+            ).toLowerCase();
+
+            const email = String(
+                application.email || ""
+            ).toLowerCase();
 
             const matchesSearch =
                 applicant.includes(searchValue) ||
@@ -1084,7 +1284,8 @@ function setupApplicationSearch() {
                 email.includes(searchValue);
 
             const matchesStatus =
-                filterValue === "" || application.status === filterValue;
+                filterValue === "" ||
+                application.status === filterValue;
 
             return matchesSearch && matchesStatus;
         });
@@ -1101,260 +1302,452 @@ function setupApplicationSearch() {
     }
 }
 
-
 // =====================================================
 // 13. MOBILE MENU AND SIDEBAR
 // =====================================================
 
 function setupMobileMenu() {
+
     const menuButton =
         getElement("menuToggle") ||
         getElement("mobileMenuBtn");
 
-    const sidebar = document.querySelector(".ph-sidebar") ||
-                document.querySelector(".sidebar");
+    const sidebar =
+        document.querySelector(".ph-sidebar") ||
+        document.querySelector(".sidebar");
 
     if (!menuButton || !sidebar) return;
 
     menuButton.addEventListener("click", function (event) {
+
         event.stopPropagation();
+
         sidebar.classList.toggle("active");
+
     });
 
     document.addEventListener("click", function (event) {
+
         if (
             !sidebar.contains(event.target) &&
             !menuButton.contains(event.target)
         ) {
             sidebar.classList.remove("active");
         }
+
     });
 }
 
+
+// SET ACTIVE SIDEBAR LINK
+
 function setActiveSidebarLink() {
+
     const currentPage = window.location.pathname
         .split("/")
         .pop()
         .toLowerCase();
 
-    document.querySelectorAll(".side-nav a, .ph-navigation a").forEach(link => {
-    link.classList.toggle(
-        "active",
-        link.getAttribute("href") === currentPage
-    );
-});
+    document.querySelectorAll(
+        ".side-nav a, .ph-navigation a"
+    ).forEach(link => {
+
+        link.classList.toggle(
+            "active",
+            link.getAttribute("href") === currentPage
+        );
+
+    });
 }
 
 
 // =====================================================
-// 14. PAGE INITIALISATION
+// 14. VUE.JS - ANIMAL MANAGEMENT ENHANCEMENT
 // =====================================================
 
+let pawHavenAnimalsVueApp = null;
+
+
+function createVueAnimalApp() {
+
+    const appElement = getElement("animalsVueApp");
+
+    if (!appElement || typeof Vue === "undefined") {
+
+        console.warn(
+            "Vue.js is unavailable. Using the original animal page."
+        );
+
+        return false;
+    }
+
+
+    // Avoid mounting the same Vue application more than once.
+
+    if (pawHavenAnimalsVueApp) {
+
+        pawHavenAnimalsVueApp.refreshAnimals();
+
+        return true;
+    }
+
+
+    // CREATE VUE APPLICATION
+
+    pawHavenAnimalsVueApp = Vue.createApp({
+
+        data() {
+
+            return {
+
+                animals: getAnimals(),
+
+                searchQuery: "",
+
+                statusFilter: ""
+
+            };
+
+        },
+
+
+        // COMPUTED PROPERTIES
+
+        computed: {
+
+            // Search and filter animal records.
+
+            filteredAnimals() {
+
+                const search = this.searchQuery
+                    .toLowerCase()
+                    .trim();
+
+                return this.animals.filter(animal => {
+
+                    const name = String(
+                        animal.name || ""
+                    ).toLowerCase();
+
+                    const type = String(
+                        animal.type || ""
+                    ).toLowerCase();
+
+                    const breed = String(
+                        animal.breed || ""
+                    ).toLowerCase();
+
+
+                    const matchesSearch =
+                        name.includes(search) ||
+                        type.includes(search) ||
+                        breed.includes(search);
+
+
+                    const matchesStatus =
+                        !this.statusFilter ||
+                        animal.status === this.statusFilter;
+
+
+                    return matchesSearch && matchesStatus;
+
+                });
+
+            },
+
+
+            // Count available animals.
+
+            availableCount() {
+
+                return this.animals.filter(
+                    animal => animal.status === "Available"
+                ).length;
+
+            },
+
+
+            // Count adopted animals.
+
+            adoptedCount() {
+
+                return this.animals.filter(
+                    animal => animal.status === "Adopted"
+                ).length;
+
+            },
+
+
+            // Count animals under care.
+
+            careCount() {
+
+                return this.animals.filter(
+                    animal => animal.status === "Under Care"
+                ).length;
+
+            }
+
+        },
+
+
+        // VUE METHODS
+
+        methods: {
+
+            // Refresh records from localStorage.
+
+            refreshAnimals() {
+
+                this.animals = getAnimals();
+
+            },
+
+
+            // Get the correct status CSS class.
+
+            statusClass(status) {
+
+                return getStatusClass(status);
+
+            },
+
+
+            // Delete an animal record.
+
+            removeAnimal(id) {
+
+                deleteAnimal(id);
+
+                this.refreshAnimals();
+
+            }
+
+        }
+
+    });
+
+
+    // CONNECT VUE TO HTML
+
+    pawHavenAnimalsVueApp.mount("#animalsVueApp");
+
+    console.log(
+        "Paw Haven animal management is now powered by Vue.js."
+    );
+
+    return true;
+
+}
+
+
+// =====================================================
+// 15. REFRESH VUE ANIMAL MANAGEMENT
+// =====================================================
+
+function refreshAnimalManagementView() {
+
+    if (pawHavenAnimalsVueApp) {
+
+        pawHavenAnimalsVueApp.refreshAnimals();
+
+    } else {
+
+        displayAnimals();
+
+        updateAnimalPageStats();
+
+    }
+
+}
+
+
+// =====================================================
+// 16. PAGE INITIALISATION
+// =====================================================
+
+
+// LOGIN PAGE
+
 function initialiseLoginPage() {
+
     const loginForm = getElement("loginForm");
 
     if (loginForm) {
+
         loginForm.onsubmit = handleLogin;
+
     }
+
 }
 
+
+// REGISTRATION PAGE
+
 function initialiseRegistrationPage() {
+
     const registrationForm =
         getElement("registrationForm") ||
         getElement("registerForm");
 
     if (registrationForm) {
+
         registrationForm.onsubmit = handleRegistration;
+
     }
+
 }
 
+
+// DASHBOARD PAGE
+
 function initialiseDashboardPage() {
+
     if (!getElement("totalAnimals")) return;
 
     updateDashboardStats();
+
     displayRecentAnimals();
+
     createDashboardCharts();
+
 }
 
+
+// ANIMAL MANAGEMENT PAGE
+
 function initialiseAnimalsPage() {
+
     if (!getElement("animalsTable")) return;
 
-    displayAnimals();
-    updateAnimalPageStats();
-    setupAnimalSearch();
+
+    // Start Vue.js.
+
+    const vueMounted = createVueAnimalApp();
+
+
+    // Keep the original JavaScript version as a fallback
+    // if Vue.js cannot load.
+
+    if (!vueMounted) {
+
+        displayAnimals();
+
+        updateAnimalPageStats();
+
+        setupAnimalSearch();
+
+    }
+
+
+    // Connect the Add Animal form.
 
     const animalForm = getElement("animalForm");
 
     if (animalForm) {
-        // Assigning onsubmit replaces any inline onsubmit handler,
-        // preventing the form from adding the same animal twice.
+
         animalForm.onsubmit = addAnimal;
+
     }
+
 }
 
+
+// APPLICATIONS PAGE
+
 function initialiseApplicationsPage() {
+
     if (!getElement("applicationsTable")) return;
 
     displayApplications();
+
     updateApplicationStats();
+
     setupApplicationSearch();
+
 }
 
+
+// ABOUT US PAGE
+
 function initialiseAboutPage() {
+
     // About Us content is provided directly in about.html.
+
 }
 
 
 // =====================================================
-// 15. MAIN INITIALISATION
+// 17. MAIN INITIALISATION
 // =====================================================
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Check whether the current user is allowed to view this page.
+
+    // Check whether the current user can access this page.
+
     checkLoginSession();
 
+
     // Display the signed-in user's information.
+
     displayUserProfile();
 
+
     // Set the current year in the footer.
-    setText("currentYear", new Date().getFullYear());
+
+    setText(
+        "currentYear",
+        new Date().getFullYear()
+    );
+
 
     // Connect all logout links.
+
     const logoutLink = getElement("logoutLink");
 
     if (logoutLink) {
-        logoutLink.addEventListener("click", handleLogout);
+
+        logoutLink.addEventListener(
+            "click",
+            handleLogout
+        );
+
     }
 
+
     // Initialise the current page.
+
     initialiseLoginPage();
+
     initialiseRegistrationPage();
+
     initialiseDashboardPage();
+
     initialiseAnimalsPage();
+
     initialiseApplicationsPage();
+
     initialiseAboutPage();
 
+
     // Navigation functions.
+
     setupMobileMenu();
+
     setActiveSidebarLink();
 
+
     // Keep page statistics synchronised.
+
     refreshAllStatistics();
+
 });
 
 
-function createMalaysiaAdoptionChart() {
-
-    const element = document.getElementById("malaysiaAdoptionChart");
-
-    if (!element) return;
-
-    // Prevent duplicate charts
-    if (element._apexChart) {
-        element._apexChart.destroy();
-    }
-
-    element.innerHTML = "";
-
-    const options = {
-
-        series: [{
-            name: "Animals Adopted",
-            data: [10, 57, 12, 108]
-        }],
-
-        chart: {
-            type: "bar",
-            height: 320,
-            toolbar: {
-                show: false
-            },
-            fontFamily: "DM Sans, sans-serif"
-        },
-
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: "45%",
-                borderRadius: 7,
-                distributed: true
-            }
-        },
-
-        colors: [
-            "#71836b",
-            "#e8b99e",
-            "#b8a9cc",
-            "#d8c9a7"
-        ],
-
-        dataLabels: {
-            enabled: true,
-            style: {
-                fontSize: "12px",
-                colors: ["#ffffff"]
-            }
-        },
-
-        xaxis: {
-            categories: [
-                "Dogs",
-                "Puppies",
-                "Cats",
-                "Kittens"
-            ],
-            labels: {
-                style: {
-                    colors: "#52616b",
-                    fontSize: "12px"
-                }
-            }
-        },
-
-        yaxis: {
-            title: {
-                text: "Number of Animals Adopted"
-            },
-            min: 0,
-            max: 120,
-            tickAmount: 4
-        },
-
-        grid: {
-            borderColor: "#eee9e1",
-            strokeDashArray: 4
-        },
-
-        legend: {
-            show: false
-        },
-
-        tooltip: {
-            y: {
-                formatter: function(value) {
-                    return value + " animals adopted";
-                }
-            }
-        },
-
-        responsive: [{
-            breakpoint: 600,
-            options: {
-                plotOptions: {
-                    bar: {
-                        columnWidth: "60%"
-                    }
-                }
-            }
-        }]
-    };
-
-    element._apexChart = new ApexCharts(element, options);
-
-    element._apexChart.render();
-}
-
+// =====================================================
+// 18. MALAYSIA ADOPTION CHART
+// =====================================================
 
 function createMalaysiaAdoptionChart() {
 
@@ -1364,14 +1757,23 @@ function createMalaysiaAdoptionChart() {
 
     if (!chartElement) return;
 
+
     if (typeof ApexCharts === "undefined") {
+
         console.error("ApexCharts is not loaded.");
+
         return;
     }
 
+
+    // Remove the previous chart before creating a new one.
+
     if (chartElement._apexChart) {
+
         chartElement._apexChart.destroy();
+
     }
+
 
     const options = {
 
@@ -1380,62 +1782,98 @@ function createMalaysiaAdoptionChart() {
             data: [235, 187, 153]
         }],
 
+
         chart: {
             type: "bar",
             height: 350,
+
             toolbar: {
                 show: false
             },
+
             fontFamily: "DM Sans, sans-serif"
         },
 
+
         plotOptions: {
+
             bar: {
                 horizontal: false,
                 columnWidth: "35%",
                 borderRadius: 7
             }
+
         },
+
 
         colors: ["#71836b"],
 
+
         dataLabels: {
+
             enabled: true,
+
             style: {
                 colors: ["#71836b"]
             }
+
         },
+
 
         xaxis: {
-            categories: ["2023", "2024", "2025"]
+
+            categories: [
+                "2023",
+                "2024",
+                "2025"
+            ]
+
         },
 
+
         yaxis: {
+
             min: 0,
             max: 250,
             tickAmount: 5,
+
             title: {
                 text: "Number of animals adopted"
             }
+
         },
 
+
         grid: {
+
             borderColor: "#eee9e1",
+
             strokeDashArray: 4
+
         },
+
 
         legend: {
             show: false
         },
 
+
         tooltip: {
+
             y: {
-                formatter: function(value) {
+
+                formatter: function (value) {
+
                     return value + " animals adopted";
+
                 }
+
             }
+
         }
+
     };
+
 
     chartElement._apexChart = new ApexCharts(
         chartElement,
@@ -1443,6 +1881,5 @@ function createMalaysiaAdoptionChart() {
     );
 
     chartElement._apexChart.render();
+
 }
-
-
