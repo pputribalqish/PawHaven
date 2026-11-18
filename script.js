@@ -1044,211 +1044,248 @@ function setupAnimalSearch() {
 // 12. APPLICATION MANAGEMENT
 // =====================================================
 
-function renderApplicationRows(applications) {
+// =====================================================
+// 14. VUE.JS - APPLICATION MANAGEMENT
+// =====================================================
 
-    const tableBody = getElement("applicationsTable");
+let pawHavenApplicationsVueApp = null;
+let pawHavenApplicationsVueInstance = null;
 
-    if (!tableBody) return;
+function createVueApplicationsApp() {
 
-    if (applications.length === 0) {
+    const appElement = getElement("applicationsVueApp");
 
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="7" class="text-center">
-                    No adoption applications found.
-                </td>
-            </tr>
-        `;
-
-        return;
+    if (!appElement) {
+        console.warn("Applications Vue container not found.");
+        return false;
     }
 
-    tableBody.innerHTML = applications.map((application, index) => `
-
-        <tr>
-
-            <td>${index + 1}</td>
-
-            <td>${escapeHTML(application.applicant)}</td>
-
-            <td>${escapeHTML(application.animal)}</td>
-
-            <td>${escapeHTML(application.email)}</td>
-
-            <td>${formatDate(application.date)}</td>
-
-            <td>
-                <span class="status-badge ${getStatusClass(application.status)}">
-                    ${escapeHTML(application.status)}
-                </span>
-            </td>
-
-            <td>
-                <select
-                    class="form-select form-select-sm status-select"
-                    aria-label="Update application status"
-                    onchange="updateApplicationStatus(${Number(application.id)}, this.value)">
-
-                    <option value="Pending"
-                        ${application.status === "Pending" ? "selected" : ""}>
-                        Pending
-                    </option>
-
-                    <option value="Approved"
-                        ${application.status === "Approved" ? "selected" : ""}>
-                        Approved
-                    </option>
-
-                    <option value="Declined"
-                        ${application.status === "Declined" ? "selected" : ""}>
-                        Declined
-                    </option>
-
-                </select>
-            </td>
-
-        </tr>
-
-    `).join("");
-}
-
-function displayApplications() {
-    renderApplicationRows(getApplications());
-}
-
-
-// UPDATE APPLICATION STATUS
-
-function updateApplicationStatus(id, newStatus) {
-
-    const validStatuses = [
-        "Pending",
-        "Approved",
-        "Declined"
-    ];
-
-    if (!validStatuses.includes(newStatus)) return;
-
-    const applications = getApplications();
-
-    const applicationIndex = applications.findIndex(
-        application => Number(application.id) === Number(id)
-    );
-
-    if (applicationIndex === -1) return;
-
-    const selectedApplication = applications[applicationIndex];
-
-    selectedApplication.status = newStatus;
-
-    if (!saveApplications(applications)) {
-        alert("Unable to update application status.");
-        return;
+    if (typeof Vue === "undefined") {
+        console.error("Vue.js is not loaded.");
+        return false;
     }
 
+    try {
 
-    // UPDATE RELATED ANIMAL STATUS
+        pawHavenApplicationsVueApp = Vue.createApp({
 
-    const animals = getAnimals();
+            data() {
+                return {
+                    applications: getApplications(),
+                    animals: getAnimals(),
+                    searchQuery: "",
+                    statusFilter: ""
+                };
+            },
 
-    const relatedAnimal = animals.find(
-        animal => animal.name === selectedApplication.animal
-    );
+            computed: {
 
-    if (relatedAnimal) {
+                filteredApplications() {
 
-        const hasApprovedApplication = applications.some(application =>
+                    const search = this.searchQuery
+                        .toLowerCase()
+                        .trim();
 
-            application.animal === selectedApplication.animal &&
-            application.status === "Approved"
+                    return this.applications.filter(application => {
 
-        );
+                        const applicant = String(
+                            application.applicant || ""
+                        ).toLowerCase();
 
-        if (hasApprovedApplication) {
+                        const animal = String(
+                            application.animal || ""
+                        ).toLowerCase();
 
-            relatedAnimal.status = "Adopted";
+                        const email = String(
+                            application.email || ""
+                        ).toLowerCase();
 
-        } else if (relatedAnimal.status === "Adopted") {
+                        const matchesSearch =
+                            applicant.includes(search) ||
+                            animal.includes(search) ||
+                            email.includes(search);
 
-            relatedAnimal.status = "Available";
-        }
+                        const matchesStatus =
+                            !this.statusFilter ||
+                            application.status === this.statusFilter;
 
-        saveAnimals(animals);
-    }
+                        return matchesSearch && matchesStatus;
 
+                    });
 
-    // REFRESH APPLICATION DATA
+                },
 
-    refreshApplicationManagementView();
+                pendingCount() {
 
-    refreshAnimalManagementView();
+                    return this.applications.filter(
+                        app => app.status === "Pending"
+                    ).length;
 
-    displayRecentAnimals();
+                },
 
-    refreshAllStatistics();
+                approvedCount() {
 
-    createDashboardCharts();
+                    return this.applications.filter(
+                        app => app.status === "Approved"
+                    ).length;
 
-    alert("Application status updated successfully!");
-}
+                },
 
+                declinedCount() {
 
-// ORIGINAL APPLICATION SEARCH FALLBACK
+                    return this.applications.filter(
+                        app => app.status === "Declined"
+                    ).length;
 
-function setupApplicationSearch() {
+                },
 
-    const searchInput = getElement("applicationSearch");
-    const filterInput = getElement("applicationFilter");
+                applicationAnimalCards() {
 
-    if (!searchInput && !filterInput) return;
+                    const animalNames = [
+                        ...new Set(
+                            this.applications
+                                .map(app => app.animal)
+                                .filter(Boolean)
+                        )
+                    ];
 
-    function filterApplications() {
+                    return animalNames.map(name => {
 
-        const searchValue = searchInput
-            ? searchInput.value.toLowerCase().trim()
-            : "";
+                        const animal = this.animals.find(
+                            item => item.name === name
+                        ) || {};
 
-        const filterValue = filterInput
-            ? filterInput.value
-            : "";
+                        const relatedApplications =
+                            this.applications.filter(
+                                app => app.animal === name
+                            );
 
-        const filteredApplications = getApplications().filter(application => {
+                        return {
 
-            const applicant = String(
-                application.applicant || ""
-            ).toLowerCase();
+                            name: name,
 
-            const animal = String(
-                application.animal || ""
-            ).toLowerCase();
+                            type: animal.type || "Animal",
 
-            const email = String(
-                application.email || ""
-            ).toLowerCase();
+                            breed: animal.breed || "Shelter animal",
 
-            const matchesSearch =
-                applicant.includes(searchValue) ||
-                animal.includes(searchValue) ||
-                email.includes(searchValue);
+                            image: getAnimalImage(animal.type),
 
-            const matchesStatus =
-                filterValue === "" ||
-                application.status === filterValue;
+                            applicants: relatedApplications.map(app => ({
+                                name: app.applicant,
+                                status: app.status,
+                                date: app.date
+                            }))
 
-            return matchesSearch && matchesStatus;
+                        };
+
+                    });
+
+                }
+
+            },
+
+            methods: {
+
+                refreshApplications() {
+
+                    this.applications = getApplications();
+                    this.animals = getAnimals();
+
+                },
+
+                statusClass(status) {
+
+                    return getStatusClass(status);
+
+                },
+
+                formatApplicationDate(date) {
+
+                    return formatDate(date);
+
+                },
+
+                changeStatus(id, newStatus) {
+
+                    updateApplicationStatus(id, newStatus);
+
+                    this.refreshApplications();
+
+                }
+
+            }
+
         });
 
-        renderApplicationRows(filteredApplications);
+        pawHavenApplicationsVueInstance =
+            pawHavenApplicationsVueApp.mount("#applicationsVueApp");
+
+        console.log("Paw Haven Applications Vue.js connected.");
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Unable to initialise Applications Vue:",
+            error
+        );
+
+        pawHavenApplicationsVueApp = null;
+        pawHavenApplicationsVueInstance = null;
+
+        return false;
+
     }
 
-    if (searchInput) {
-        searchInput.addEventListener("input", filterApplications);
-    }
-
-    if (filterInput) {
-        filterInput.addEventListener("change", filterApplications);
-    }
 }
+
+
+// =====================================================
+// ANIMAL IMAGE
+// =====================================================
+
+function getAnimalImage(type) {
+
+    const images = {
+
+        Cat:
+        "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=700",
+
+        Dog:
+        "https://images.unsplash.com/photo-1552053831-71594a27632d?w=700",
+
+        Rabbit:
+        "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=700"
+
+    };
+
+    return images[type] ||
+        "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=700";
+
+}
+
+
+// =====================================================
+// REFRESH APPLICATION MANAGEMENT
+// =====================================================
+
+function refreshApplicationManagementView() {
+
+    if (pawHavenApplicationsVueInstance) {
+
+        pawHavenApplicationsVueInstance.refreshApplications();
+
+    } else {
+
+        displayApplications();
+
+        updateApplicationStats();
+
+    }
+
+}
+
 
 
 // =====================================================
