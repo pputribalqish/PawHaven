@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,20 +6,59 @@
 
     <title>Applications | Paw Haven</title>
 
-    <!-- SAME FONTS AS ANIMALS.HTML -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Font Awesome -->
     <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        [v-cloak] {
+            display: none !important;
+        }
+
+        .ph-application-action {
+            min-width: 125px;
+            padding: 7px 10px;
+            border: 1px solid #e6e2d9;
+            border-radius: 8px;
+            background: #fff;
+            color: #53634f;
+            font-family: inherit;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .ph-application-action:focus {
+            outline: 2px solid #aab99f;
+        }
+
+        .ph-applicant-cell strong {
+            display: block;
+            color: #39483b;
+            font-weight: 600;
+        }
+
+        .ph-applicant-cell small {
+            color: #92918a;
+            font-size: 12px;
+        }
+
+        .ph-application-empty {
+            padding: 35px !important;
+            color: #92918a;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body class="app-page">
@@ -31,25 +69,31 @@
     <aside class="ph-sidebar" id="sidebar">
 
         <div class="ph-brand">
-    <div class="ph-brand-icon">
-        <i class="fa-solid fa-paw"></i>
-    </div>
+
+            <div class="ph-brand-icon">
+                <i class="fa-solid fa-paw"></i>
+            </div>
 
             <div>
                 <h2>Paw Haven</h2>
                 <span>ANIMAL SHELTER MANAGEMENT</span>
             </div>
+
         </div>
+
 
         <!-- ADMIN PROFILE -->
         <div class="ph-profile">
-    <div class="ph-avatar" id="adminAvatar">A</div>
 
-    <div>
-        <strong id="adminName">Paw Haven Admin</strong>
-        <small>Admin account</small>
-    </div>
-</div>
+            <div class="ph-avatar" id="adminAvatar">A</div>
+
+            <div>
+                <strong id="adminName">Paw Haven Admin</strong>
+                <small>Admin account</small>
+            </div>
+
+        </div>
+
 
         <!-- NAVIGATION -->
         <div class="ph-nav-label">MAIN MENU</div>
@@ -57,38 +101,56 @@
         <nav class="ph-navigation">
 
             <a href="dashboard.html">
+
                 <span class="ph-nav-icon">⌂</span>
                 <span>Dashboard</span>
+
             </a>
+
 
             <a href="animals.html">
+
                 <span class="ph-nav-icon">♡</span>
                 <span>Animal Management</span>
+
             </a>
+
 
             <a href="applications.html" class="active">
+
                 <span class="ph-nav-icon">▤</span>
                 <span>Applications</span>
+
             </a>
 
+
             <a href="about.html">
+
                 <span class="ph-nav-icon">ⓘ</span>
                 <span>About Us</span>
+
             </a>
 
         </nav>
+
 
         <!-- SIDEBAR BOTTOM -->
         <div class="ph-sidebar-bottom">
 
             <div class="ph-sidebar-note">
+
                 <span>🐱</span>
+
                 <p>Every paw deserves a loving home.</p>
+
             </div>
 
+
             <a href="#" id="logoutLink" class="ph-logout">
+
                 <span>↪</span>
                 Log Out
+
             </a>
 
         </div>
@@ -99,32 +161,33 @@
     <!-- MAIN CONTENT -->
     <main class="ph-main">
 
+
         <!-- TOPBAR -->
         <header class="ph-topbar">
 
             <div class="ph-topbar-left">
-
-                <button class="ph-menu-button"
-                        id="mobileMenuBtn"
-                        type="button">
-                    ☰
-                </button>
 
                 <div>
                     <span class="ph-eyebrow">
                         PAW HAVEN / ADOPTION RECORDS
                     </span>
 
-                    <h1>Applications</h1>
+                    <h1>Adoption Applications</h1>
                 </div>
 
             </div>
 
+
             <div class="ph-topbar-right">
 
                 <div class="ph-topbar-admin">
+
                     <span>Welcome back,</span>
-                    <strong id="adminTopbarName">Administrator</strong>
+
+                    <strong id="adminTopbarName">
+                        Administrator
+                    </strong>
+
                 </div>
 
                 <div class="ph-topbar-avatar">🐾</div>
@@ -132,6 +195,7 @@
             </div>
 
         </header>
+
 
 
         <!-- PAGE CONTENT -->
@@ -144,300 +208,455 @@
                 <div class="ph-page-hero-copy">
 
                     <span class="ph-small-tag">
-                        MAKING FOREVER HOMES
+                        FINDING FOREVER HOMES
                     </span>
 
+
                     <h2>
-                        A new beginning starts
-                        <em>with an application.</em>
+                        Every adoption begins
+                        with <em>a little hope.</em>
                     </h2>
 
+
                     <p>
-                        Every adoption application represents an
-                        opportunity for an animal to find a loving
-                        family. Review applications and keep track
-                        of their progress here.
+                        Manage adoption applications and follow
+                        each applicant's journey towards welcoming
+                        a new furry family member into their home.
                     </p>
 
-                    <a href="animals.html"
-                       class="ph-primary-button ph-link-button">
-                        View Our Animals →
+
+                    <a href="animals.html" class="ph-primary-button">
+                        View Our Animals
                     </a>
 
                 </div>
 
+
                 <div class="ph-page-hero-image">
 
                     <img
-                        src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1000"
-                        alt="Dogs enjoying time together">
+                        src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1000"
+                        alt="Dog waiting for a loving home">
 
                 </div>
 
             </section>
 
 
-            <!-- APPLICATION STATISTICS -->
-            <section class="ph-section">
 
-                <div class="ph-section-heading">
+            <!-- VUE APPLICATION MANAGEMENT -->
+            <div id="applicationsVueApp" v-cloak>
 
-                    <div>
-                        <span class="ph-eyebrow">
-                            APPLICATION OVERVIEW
+
+                <!-- APPLICATION STATISTICS -->
+                <section class="ph-section">
+
+                    <div class="ph-section-heading">
+
+                        <div>
+
+                            <span class="ph-eyebrow">
+                                APPLICATION OVERVIEW
+                            </span>
+
+                            <h2>Application Statistics</h2>
+
+                        </div>
+
+                        <span class="ph-muted-text">
+                            Current application records
                         </span>
 
-                        <h2>Application Statistics</h2>
-                    </div>
-
-                    <span class="ph-muted-text">
-                        Adoption application records
-                    </span>
-
-                </div>
-
-
-                <div class="ph-stats-grid">
-
-                    <!-- TOTAL -->
-                    <div class="ph-stat-card">
-
-                        <div class="ph-stat-top">
-                            <span class="ph-stat-icon sage">▤</span>
-                            <span class="ph-stat-caption">Total applications</span>
-                        </div>
-
-                        <h3 id="totalApplicationCount">0</h3>
-
-                        <p>All submitted applications</p>
-
                     </div>
 
 
-                    <!-- PENDING -->
-                    <div class="ph-stat-card">
 
-                        <div class="ph-stat-top">
-                            <span class="ph-stat-icon yellow">◷</span>
-                            <span class="ph-stat-caption">Pending</span>
-                        </div>
-
-                        <h3 id="pendingApplicationCount">0</h3>
-
-                        <p>Waiting for review</p>
-
-                    </div>
+                    <div class="ph-stats-grid">
 
 
-                    <!-- APPROVED -->
-                    <div class="ph-stat-card">
+                        <!-- TOTAL APPLICATIONS -->
+                        <div class="ph-stat-card">
 
-                        <div class="ph-stat-top">
-                            <span class="ph-stat-icon sage">✓</span>
-                            <span class="ph-stat-caption">Approved</span>
-                        </div>
+                            <div class="ph-stat-top">
 
-                        <h3 id="approvedApplicationCount">0</h3>
+                                <span class="ph-stat-icon sage">
+                                    <i class="fa-solid fa-file-lines"></i>
+                                </span>
 
-                        <p>Successfully approved</p>
+                                <span class="ph-stat-caption">
+                                    Total applications
+                                </span>
 
-                    </div>
-
-
-                    <!-- DECLINED -->
-                    <div class="ph-stat-card">
-
-                        <div class="ph-stat-top">
-                            <span class="ph-stat-icon peach">×</span>
-                            <span class="ph-stat-caption">Declined</span>
-                        </div>
-
-                        <h3 id="declinedApplicationCount">0</h3>
-
-                        <p>Unsuccessful applications</p>
-
-                    </div>
-
-                </div>
-
-            </section>
+                            </div>
 
 
-            <!-- APPLICATION RECORDS -->
-            <section class="ph-section">
+                            <h3>{{ applications.length }}</h3>
 
-                <div class="ph-section-heading">
-
-                    <div>
-                        <span class="ph-eyebrow">
-                            DATABASE MANAGEMENT
-                        </span>
-
-                        <h2>Adoption Applications</h2>
-
-                        <p>
-                            Monitor and manage submitted adoption requests.
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <div class="ph-panel">
-
-                    <!-- SEARCH AND FILTER -->
-                    <div class="ph-record-toolbar">
-
-                        <div class="ph-search-box">
-
-                            <span>⌕</span>
-
-                            <input
-                                type="text"
-                                id="applicationSearch"
-                                placeholder="Search applicant or animal name...">
+                            <p>Applications received</p>
 
                         </div>
 
 
-                        <select
-                            id="applicationFilter"
-                            class="ph-filter-select">
 
-                            <option value="">All Status</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Approved">Approved</option>
-                            <option value="Declined">Declined</option>
+                        <!-- PENDING -->
+                        <div class="ph-stat-card">
 
-                        </select>
+                            <div class="ph-stat-top">
+
+                                <span class="ph-stat-icon peach">
+                                    <i class="fa-regular fa-clock"></i>
+                                </span>
+
+                                <span class="ph-stat-caption">
+                                    Pending
+                                </span>
+
+                            </div>
+
+
+                            <h3>{{ pendingCount }}</h3>
+
+                            <p>Waiting for review</p>
+
+                        </div>
+
+
+
+                        <!-- APPROVED -->
+                        <div class="ph-stat-card">
+
+                            <div class="ph-stat-top">
+
+                                <span class="ph-stat-icon lavender">
+                                    <i class="fa-solid fa-heart"></i>
+                                </span>
+
+                                <span class="ph-stat-caption">
+                                    Approved
+                                </span>
+
+                            </div>
+
+
+                            <h3>{{ approvedCount }}</h3>
+
+                            <p>Successful applications</p>
+
+                        </div>
+
+
+
+                        <!-- DECLINED -->
+                        <div class="ph-stat-card">
+
+                            <div class="ph-stat-top">
+
+                                <span class="ph-stat-icon yellow">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </span>
+
+                                <span class="ph-stat-caption">
+                                    Declined
+                                </span>
+
+                            </div>
+
+
+                            <h3>{{ declinedCount }}</h3>
+
+                            <p>Unsuccessful applications</p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+
+                <!-- APPLICATION RECORDS -->
+                <section class="ph-section">
+
+
+                    <div class="ph-section-heading">
+
+                        <div>
+
+                            <span class="ph-eyebrow">
+                                DATABASE
+                            </span>
+
+                            <h2>Adoption Records</h2>
+
+                            <p>
+                                Review applicants and manage their
+                                adoption application status.
+                            </p>
+
+                        </div>
 
                     </div>
 
 
-                    <!-- TABLE -->
-                    <div class="ph-table-wrapper">
 
-                        <table class="ph-table">
+                    <!-- APPLICATION TABLE PANEL -->
+                    <div class="ph-panel">
 
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Applicant Name</th>
-                                    <th>Animal Name</th>
-                                    <th>Email</th>
-                                    <th>Application Date</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
 
-                            <tbody id="applicationsTable">
-                                <!-- Loaded using script.js -->
-                            </tbody>
+                        <!-- SEARCH AND FILTER -->
+                        <div class="ph-record-toolbar">
 
-                        </table>
+
+                            <div class="ph-search-box">
+
+                                <span>⌕</span>
+
+                                <input
+                                    type="text"
+                                    id="applicationSearch"
+                                    v-model="searchQuery"
+                                    placeholder="Search applicant, animal or email...">
+
+                            </div>
+
+
+
+                            <select
+                                id="applicationFilter"
+                                class="ph-filter-select"
+                                v-model="statusFilter">
+
+                                <option value="">
+                                    All Status
+                                </option>
+
+                                <option value="Pending">
+                                    Pending
+                                </option>
+
+                                <option value="Approved">
+                                    Approved
+                                </option>
+
+                                <option value="Declined">
+                                    Declined
+                                </option>
+
+                            </select>
+
+
+                        </div>
+
+
+
+                        <!-- APPLICATION TABLE -->
+                        <div class="ph-table-wrapper">
+
+                            <table class="ph-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>No.</th>
+
+                                        <th>Applicant</th>
+
+                                        <th>Animal</th>
+
+                                        <th>Email</th>
+
+                                        <th>Application Date</th>
+
+                                        <th>Status</th>
+
+                                        <th>Update Status</th>
+
+                                    </tr>
+
+                                </thead>
+
+
+
+                                <tbody id="applicationsTable">
+
+
+                                    <!-- EMPTY STATE -->
+                                    <tr v-if="filteredApplications.length === 0">
+
+                                        <td colspan="7"
+                                            class="ph-application-empty">
+
+                                            <i class="fa-regular fa-folder-open"></i>
+
+                                            <p class="mb-0 mt-2">
+                                                No adoption applications found.
+                                            </p>
+
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    <!-- APPLICATION DATA -->
+                                    <tr
+                                        v-for="(application, index) in filteredApplications"
+                                        :key="application.id">
+
+
+                                        <td>
+                                            {{ index + 1 }}
+                                        </td>
+
+
+
+                                        <!-- APPLICANT -->
+                                        <td class="ph-applicant-cell">
+
+                                            <strong>
+                                                {{ application.applicant }}
+                                            </strong>
+
+                                            <small>
+                                                Adoption applicant
+                                            </small>
+
+                                        </td>
+
+
+
+                                        <!-- ANIMAL -->
+                                        <td>
+
+                                            <span class="ph-animal-name">
+                                                {{ application.animal }}
+                                            </span>
+
+                                        </td>
+
+
+
+                                        <!-- EMAIL -->
+                                        <td>
+
+                                            {{ application.email || '-' }}
+
+                                        </td>
+
+
+
+                                        <!-- DATE -->
+                                        <td>
+
+                                            {{ formatApplicationDate(application.date) }}
+
+                                        </td>
+
+
+
+                                        <!-- STATUS -->
+                                        <td>
+
+                                            <span
+                                                class="status-badge"
+                                                :class="statusClass(application.status)">
+
+                                                {{ application.status }}
+
+                                            </span>
+
+                                        </td>
+
+
+
+                                        <!-- UPDATE STATUS -->
+                                        <td>
+
+                                            <select
+                                                class="ph-application-action"
+                                                :value="application.status"
+                                                :aria-label="'Update status for ' + application.applicant"
+                                                @change="changeStatus(application.id, $event.target.value)">
+
+                                                <option value="Pending">
+                                                    Pending
+                                                </option>
+
+                                                <option value="Approved">
+                                                    Approved
+                                                </option>
+
+                                                <option value="Declined">
+                                                    Declined
+                                                </option>
+
+                                            </select>
+
+                                        </td>
+
+
+                                    </tr>
+
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+
+                        <!-- TABLE FOOTER -->
+                        <div class="ph-table-footer">
+
+                            <span>
+                                Adoption applications are managed through Paw Haven.
+                            </span>
+
+                        </div>
+
 
                     </div>
 
-
-                    <div class="ph-table-footer">
-                        Review and update each adoption application carefully.
-                    </div>
-
-                </div>
-
-            </section>
+                </section>
 
 
-            <!-- BOTTOM INFORMATION SECTION -->
-            <section class="ph-application-bottom">
+            </div>
+            <!-- END VUE APPLICATION APP -->
 
-                <!-- APPLICATION SUMMARY -->
-                <div class="ph-panel ph-summary-panel">
+
+
+            <!-- BOTTOM BANNER -->
+            <section class="ph-bottom-banner">
+
+
+                <div>
 
                     <span class="ph-small-tag">
-                        CURRENT OVERVIEW
+                        A LITTLE REMINDER
                     </span>
 
-                    <h2>Application Summary</h2>
+
+                    <h2>Love makes a family.</h2>
+
 
                     <p>
-                        Keep track of the latest application progress.
+                        Behind every application is a chance
+                        for an animal to find a loving home.
                     </p>
-
-
-                    <div class="ph-summary-item">
-                        <div class="ph-summary-label">
-                            <span class="ph-summary-dot pending-dot"></span>
-                            Pending Applications
-                        </div>
-
-                        <strong id="sidePending">0</strong>
-                    </div>
-
-
-                    <div class="ph-summary-item">
-                        <div class="ph-summary-label">
-                            <span class="ph-summary-dot approved-dot"></span>
-                            Approved Applications
-                        </div>
-
-                        <strong id="sideApproved">0</strong>
-                    </div>
-
-
-                    <div class="ph-summary-item">
-                        <div class="ph-summary-label">
-                            <span class="ph-summary-dot declined-dot"></span>
-                            Declined Applications
-                        </div>
-
-                        <strong id="sideDeclined">0</strong>
-                    </div>
 
                 </div>
 
 
-                <!-- REVIEW GUIDELINES -->
-                <div class="ph-panel ph-guideline-panel">
-
-                    <div class="ph-guideline-icon">♡</div>
-
-                    <span class="ph-small-tag">
-                        ADMINISTRATOR GUIDE
-                    </span>
-
-                    <h2>Review with care.</h2>
-
-                    <p>
-                        Each application is an important step towards
-                        giving an animal a better life. Make sure
-                        applicant information is reviewed carefully
-                        before updating its status.
-                    </p>
-
-                    <div class="ph-guideline-list">
-
-                        <div>
-                            <span>01</span>
-                            Check applicant information
-                        </div>
-
-                        <div>
-                            <span>02</span>
-                            Review the selected animal
-                        </div>
-
-                        <div>
-                            <span>03</span>
-                            Update the application status
-                        </div>
-
-                    </div>
-
+                <div class="ph-banner-decoration">
+                    ♡
                 </div>
+
 
             </section>
+
 
 
             <!-- FOOTER -->
@@ -448,9 +667,13 @@
                     Paw Haven Animal Shelter.
                 </span>
 
-                <span>Made with care for every paw ♡</span>
+
+                <span>
+                    Made with care for every paw ♡
+                </span>
 
             </footer>
+
 
         </section>
 
@@ -459,8 +682,20 @@
 </div>
 
 
-<!-- JAVASCRIPT -->
-<script src="js/script.js"></script>
+
+<!-- VUE.JS -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+
+<!-- EXISTING JAVASCRIPT -->
+<script src="./script.js"></script>
+
+
+<!-- VUE CONNECTION TEST -->
+<script>
+    console.log("Paw Haven Vue.js:", Vue.version);
+</script>
+
 
 </body>
 </html>
