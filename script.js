@@ -1,6 +1,8 @@
+
 // =====================================================
 // PAW HAVEN - ANIMAL SHELTER MANAGEMENT SYSTEM
 // MAIN JAVASCRIPT
+// Vue.js Integration: Animal Management & Applications
 // =====================================================
 
 
@@ -179,7 +181,7 @@ function getElement(id) {
 }
 
 function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, function (character) {
+    return String(value ?? "").replace(/[&<>"']/g, function(character) {
 
         const characters = {
             "&": "&amp;",
@@ -302,7 +304,7 @@ function handleLogin(event) {
 
     } else {
 
-        loggedInUser = getUsers().find(function (user) {
+        loggedInUser = getUsers().find(function(user) {
 
             return (
                 user.username.toLowerCase() === username.toLowerCase() &&
@@ -327,12 +329,7 @@ function handleLogin(event) {
         role: loggedInUser.role || "user"
     };
 
-    if (
-        saveStorageData(
-            "pawhaven_current_user",
-            currentUser
-        )
-    ) {
+    if (saveStorageData("pawhaven_current_user", currentUser)) {
 
         window.location.href = "dashboard.html";
 
@@ -361,13 +358,7 @@ function handleRegistration(event) {
     const password = getElement("password")?.value;
     const confirmPassword = getElement("confirmPassword")?.value;
 
-    if (
-        !fullName ||
-        !email ||
-        !username ||
-        !password ||
-        !confirmPassword
-    ) {
+    if (!fullName || !email || !username || !password || !confirmPassword) {
         showMessage(
             "registerMessage",
             "Please complete all required fields."
@@ -406,7 +397,7 @@ function handleRegistration(event) {
 
     const users = getUsers();
 
-    const existingUser = users.find(function (user) {
+    const existingUser = users.find(function(user) {
 
         return (
             user.username.toLowerCase() === username.toLowerCase() ||
@@ -450,7 +441,7 @@ function handleRegistration(event) {
         "success"
     );
 
-    setTimeout(function () {
+    setTimeout(function() {
         window.location.href = "login.html";
     }, 1500);
 }
@@ -461,10 +452,7 @@ function handleRegistration(event) {
 // =====================================================
 
 function handleLogout(event) {
-
-    if (event) {
-        event.preventDefault();
-    }
+    if (event) event.preventDefault();
 
     localStorage.removeItem("pawhaven_current_user");
 
@@ -616,11 +604,11 @@ function updateApplicationStats() {
 }
 
 function refreshAllStatistics() {
-
     updateDashboardStats();
     updateAnimalPageStats();
     updateApplicationStats();
 }
+
 
 // =====================================================
 // 9. DASHBOARD RECENT ANIMALS
@@ -665,9 +653,6 @@ function displayRecentAnimals() {
 
 // =====================================================
 // 10. DASHBOARD CHARTS
-// Lecturer requirements:
-// 1. Animals by species
-// 2. Adoption applications per month
 // =====================================================
 
 function createDashboardCharts() {
@@ -676,8 +661,6 @@ function createDashboardCharts() {
         console.warn("ApexCharts is not loaded.");
         return;
     }
-
-    createMalaysiaAdoptionChart();
 
     const animals = getAnimals();
     const applications = getApplications();
@@ -750,7 +733,7 @@ function createDashboardCharts() {
     }
 
 
-    // APPROVED ADOPTION APPLICATIONS PER MONTH - AREA CHART
+    // APPROVED ADOPTIONS PER MONTH - AREA CHART
 
     const adoptionChartElement = getElement("adoptionChart");
 
@@ -874,25 +857,17 @@ function renderAnimalRows(animals) {
     }
 
     tableBody.innerHTML = animals.map(animal => `
-
         <tr>
-
             <td>${escapeHTML(animal.name)}</td>
-
             <td>${escapeHTML(animal.type)}</td>
-
             <td>${escapeHTML(animal.breed)}</td>
-
             <td>${escapeHTML(animal.age)}</td>
-
             <td>${escapeHTML(animal.gender)}</td>
-
             <td>
                 <span class="status-badge ${getStatusClass(animal.status)}">
                     ${escapeHTML(animal.status)}
                 </span>
             </td>
-
             <td>
                 <button
                     class="btn btn-sm btn-outline-danger"
@@ -904,15 +879,11 @@ function renderAnimalRows(animals) {
 
                 </button>
             </td>
-
         </tr>
-
     `).join("");
 }
 
-
 function displayAnimals() {
-
     renderAnimalRows(getAnimals());
 }
 
@@ -931,9 +902,7 @@ function addAnimal(event) {
     const status = getElement("animalStatus")?.value;
 
     if (!name || !type || !breed || !age || !gender || !status) {
-
         alert("Please complete all animal details.");
-
         return;
     }
 
@@ -950,17 +919,13 @@ function addAnimal(event) {
     });
 
     if (!saveAnimals(animals)) {
-
         alert("Unable to save animal record.");
-
         return;
     }
 
     const form = getElement("animalForm");
 
-    if (form) {
-        form.reset();
-    }
+    if (form) form.reset();
 
     closeAnimalModal();
 
@@ -1004,7 +969,7 @@ function deleteAnimal(id) {
 }
 
 
-// OPEN ANIMAL MODAL
+// OPEN AND CLOSE MODAL
 
 function openAnimalModal() {
 
@@ -1014,9 +979,6 @@ function openAnimalModal() {
         modal.classList.add("show");
     }
 }
-
-
-// CLOSE ANIMAL MODAL
 
 function closeAnimalModal() {
 
@@ -1028,7 +990,7 @@ function closeAnimalModal() {
 }
 
 
-// ORIGINAL SEARCH AND FILTER FALLBACK
+// ORIGINAL SEARCH FALLBACK
 
 function setupAnimalSearch() {
 
@@ -1050,9 +1012,7 @@ function setupAnimalSearch() {
         const filteredAnimals = getAnimals().filter(animal => {
 
             const name = String(animal.name || "").toLowerCase();
-
             const type = String(animal.type || "").toLowerCase();
-
             const breed = String(animal.breed || "").toLowerCase();
 
             const matchesSearch =
@@ -1083,9 +1043,6 @@ function setupAnimalSearch() {
 // =====================================================
 // 12. APPLICATION MANAGEMENT
 // =====================================================
-
-
-// DISPLAY APPLICATION TABLE
 
 function renderApplicationRows(applications) {
 
@@ -1127,32 +1084,27 @@ function renderApplicationRows(applications) {
             </td>
 
             <td>
-
                 <select
                     class="form-select form-select-sm status-select"
                     aria-label="Update application status"
                     onchange="updateApplicationStatus(${Number(application.id)}, this.value)">
 
-                    <option
-                        value="Pending"
+                    <option value="Pending"
                         ${application.status === "Pending" ? "selected" : ""}>
                         Pending
                     </option>
 
-                    <option
-                        value="Approved"
+                    <option value="Approved"
                         ${application.status === "Approved" ? "selected" : ""}>
                         Approved
                     </option>
 
-                    <option
-                        value="Declined"
+                    <option value="Declined"
                         ${application.status === "Declined" ? "selected" : ""}>
                         Declined
                     </option>
 
                 </select>
-
             </td>
 
         </tr>
@@ -1160,9 +1112,7 @@ function renderApplicationRows(applications) {
     `).join("");
 }
 
-
 function displayApplications() {
-
     renderApplicationRows(getApplications());
 }
 
@@ -1187,19 +1137,17 @@ function updateApplicationStatus(id, newStatus) {
 
     if (applicationIndex === -1) return;
 
-    applications[applicationIndex].status = newStatus;
+    const selectedApplication = applications[applicationIndex];
+
+    selectedApplication.status = newStatus;
 
     if (!saveApplications(applications)) {
-
         alert("Unable to update application status.");
-
         return;
     }
 
 
-    // Update the animal record based on its applications.
-
-    const selectedApplication = applications[applicationIndex];
+    // UPDATE RELATED ANIMAL STATUS
 
     const animals = getAnimals();
 
@@ -1228,7 +1176,10 @@ function updateApplicationStatus(id, newStatus) {
         saveAnimals(animals);
     }
 
-    displayApplications();
+
+    // REFRESH APPLICATION DATA
+
+    refreshApplicationManagementView();
 
     refreshAnimalManagementView();
 
@@ -1238,18 +1189,15 @@ function updateApplicationStatus(id, newStatus) {
 
     createDashboardCharts();
 
-    createMalaysiaAdoptionChart();
-
     alert("Application status updated successfully!");
 }
 
 
-// APPLICATION SEARCH AND FILTER
+// ORIGINAL APPLICATION SEARCH FALLBACK
 
 function setupApplicationSearch() {
 
     const searchInput = getElement("applicationSearch");
-
     const filterInput = getElement("applicationFilter");
 
     if (!searchInput && !filterInput) return;
@@ -1302,8 +1250,294 @@ function setupApplicationSearch() {
     }
 }
 
+
 // =====================================================
-// 13. MOBILE MENU AND SIDEBAR
+// 13. VUE.JS - ANIMAL MANAGEMENT
+// =====================================================
+
+let pawHavenAnimalsVueApp = null;
+
+function createVueAnimalApp() {
+
+    const appElement = getElement("animalsVueApp");
+
+    if (!appElement || typeof Vue === "undefined") {
+        console.warn("Vue.js is unavailable.");
+        return false;
+    }
+
+    if (pawHavenAnimalsVueApp) {
+        pawHavenAnimalsVueApp.refreshAnimals();
+        return true;
+    }
+
+    pawHavenAnimalsVueApp = Vue.createApp({
+
+        data() {
+
+            return {
+                animals: getAnimals(),
+                searchQuery: "",
+                statusFilter: ""
+            };
+
+        },
+
+        computed: {
+
+            filteredAnimals() {
+
+                const search = this.searchQuery
+                    .toLowerCase()
+                    .trim();
+
+                return this.animals.filter(animal => {
+
+                    const name = String(
+                        animal.name || ""
+                    ).toLowerCase();
+
+                    const type = String(
+                        animal.type || ""
+                    ).toLowerCase();
+
+                    const breed = String(
+                        animal.breed || ""
+                    ).toLowerCase();
+
+                    const matchesSearch =
+                        name.includes(search) ||
+                        type.includes(search) ||
+                        breed.includes(search);
+
+                    const matchesStatus =
+                        !this.statusFilter ||
+                        animal.status === this.statusFilter;
+
+                    return matchesSearch && matchesStatus;
+                });
+
+            },
+
+            availableCount() {
+
+                return this.animals.filter(
+                    animal => animal.status === "Available"
+                ).length;
+
+            },
+
+            adoptedCount() {
+
+                return this.animals.filter(
+                    animal => animal.status === "Adopted"
+                ).length;
+
+            },
+
+            careCount() {
+
+                return this.animals.filter(
+                    animal => animal.status === "Under Care"
+                ).length;
+
+            }
+
+        },
+
+        methods: {
+
+            refreshAnimals() {
+                this.animals = getAnimals();
+            },
+
+            statusClass(status) {
+                return getStatusClass(status);
+            },
+
+            removeAnimal(id) {
+
+                deleteAnimal(id);
+
+                this.refreshAnimals();
+
+            }
+
+        }
+
+    });
+
+    pawHavenAnimalsVueApp.mount("#animalsVueApp");
+
+    console.log("Paw Haven Animal Management Vue.js connected.");
+
+    return true;
+}
+
+
+function refreshAnimalManagementView() {
+
+    if (pawHavenAnimalsVueApp) {
+
+        pawHavenAnimalsVueApp.refreshAnimals();
+
+    } else {
+
+        displayAnimals();
+
+        updateAnimalPageStats();
+
+    }
+}
+
+
+// =====================================================
+// 14. VUE.JS - APPLICATION MANAGEMENT
+// =====================================================
+
+let pawHavenApplicationsVueApp = null;
+
+function createVueApplicationsApp() {
+
+    const appElement = getElement("applicationsVueApp");
+
+    if (!appElement || typeof Vue === "undefined") {
+        console.warn("Vue.js is unavailable.");
+        return false;
+    }
+
+    if (pawHavenApplicationsVueApp) {
+        pawHavenApplicationsVueApp.refreshApplications();
+        return true;
+    }
+
+    pawHavenApplicationsVueApp = Vue.createApp({
+
+        data() {
+
+            return {
+                applications: getApplications(),
+                searchQuery: "",
+                statusFilter: ""
+            };
+
+        },
+
+        computed: {
+
+            filteredApplications() {
+
+                const search = this.searchQuery
+                    .toLowerCase()
+                    .trim();
+
+                return this.applications.filter(application => {
+
+                    const applicant = String(
+                        application.applicant || ""
+                    ).toLowerCase();
+
+                    const animal = String(
+                        application.animal || ""
+                    ).toLowerCase();
+
+                    const email = String(
+                        application.email || ""
+                    ).toLowerCase();
+
+                    const matchesSearch =
+                        applicant.includes(search) ||
+                        animal.includes(search) ||
+                        email.includes(search);
+
+                    const matchesStatus =
+                        !this.statusFilter ||
+                        application.status === this.statusFilter;
+
+                    return matchesSearch && matchesStatus;
+
+                });
+
+            },
+
+            pendingCount() {
+
+                return this.applications.filter(
+                    application => application.status === "Pending"
+                ).length;
+
+            },
+
+            approvedCount() {
+
+                return this.applications.filter(
+                    application => application.status === "Approved"
+                ).length;
+
+            },
+
+            declinedCount() {
+
+                return this.applications.filter(
+                    application => application.status === "Declined"
+                ).length;
+
+            }
+
+        },
+
+        methods: {
+
+            refreshApplications() {
+                this.applications = getApplications();
+            },
+
+            statusClass(status) {
+                return getStatusClass(status);
+            },
+
+            formatApplicationDate(date) {
+                return formatDate(date);
+            },
+
+            changeStatus(id, newStatus) {
+
+                updateApplicationStatus(id, newStatus);
+
+                this.refreshApplications();
+
+            }
+
+        }
+
+    });
+
+    pawHavenApplicationsVueApp.mount("#applicationsVueApp");
+
+    console.log("Paw Haven Applications Vue.js connected.");
+
+    return true;
+}
+
+
+function refreshApplicationManagementView() {
+
+    if (pawHavenApplicationsVueApp) {
+
+        pawHavenApplicationsVueApp.refreshApplications();
+
+    } else {
+
+        displayApplications();
+
+        updateApplicationStats();
+
+    }
+}
+
+
+// =====================================================
+// 15. MOBILE MENU AND SIDEBAR
 // =====================================================
 
 function setupMobileMenu() {
@@ -1318,7 +1552,7 @@ function setupMobileMenu() {
 
     if (!menuButton || !sidebar) return;
 
-    menuButton.addEventListener("click", function (event) {
+    menuButton.addEventListener("click", function(event) {
 
         event.stopPropagation();
 
@@ -1326,7 +1560,7 @@ function setupMobileMenu() {
 
     });
 
-    document.addEventListener("click", function (event) {
+    document.addEventListener("click", function(event) {
 
         if (
             !sidebar.contains(event.target) &&
@@ -1338,8 +1572,6 @@ function setupMobileMenu() {
     });
 }
 
-
-// SET ACTIVE SIDEBAR LINK
 
 function setActiveSidebarLink() {
 
@@ -1362,210 +1594,8 @@ function setActiveSidebarLink() {
 
 
 // =====================================================
-// 14. VUE.JS - ANIMAL MANAGEMENT ENHANCEMENT
-// =====================================================
-
-let pawHavenAnimalsVueApp = null;
-
-
-function createVueAnimalApp() {
-
-    const appElement = getElement("animalsVueApp");
-
-    if (!appElement || typeof Vue === "undefined") {
-
-        console.warn(
-            "Vue.js is unavailable. Using the original animal page."
-        );
-
-        return false;
-    }
-
-
-    // Avoid mounting the same Vue application more than once.
-
-    if (pawHavenAnimalsVueApp) {
-
-        pawHavenAnimalsVueApp.refreshAnimals();
-
-        return true;
-    }
-
-
-    // CREATE VUE APPLICATION
-
-    pawHavenAnimalsVueApp = Vue.createApp({
-
-        data() {
-
-            return {
-
-                animals: getAnimals(),
-
-                searchQuery: "",
-
-                statusFilter: ""
-
-            };
-
-        },
-
-
-        // COMPUTED PROPERTIES
-
-        computed: {
-
-            // Search and filter animal records.
-
-            filteredAnimals() {
-
-                const search = this.searchQuery
-                    .toLowerCase()
-                    .trim();
-
-                return this.animals.filter(animal => {
-
-                    const name = String(
-                        animal.name || ""
-                    ).toLowerCase();
-
-                    const type = String(
-                        animal.type || ""
-                    ).toLowerCase();
-
-                    const breed = String(
-                        animal.breed || ""
-                    ).toLowerCase();
-
-
-                    const matchesSearch =
-                        name.includes(search) ||
-                        type.includes(search) ||
-                        breed.includes(search);
-
-
-                    const matchesStatus =
-                        !this.statusFilter ||
-                        animal.status === this.statusFilter;
-
-
-                    return matchesSearch && matchesStatus;
-
-                });
-
-            },
-
-
-            // Count available animals.
-
-            availableCount() {
-
-                return this.animals.filter(
-                    animal => animal.status === "Available"
-                ).length;
-
-            },
-
-
-            // Count adopted animals.
-
-            adoptedCount() {
-
-                return this.animals.filter(
-                    animal => animal.status === "Adopted"
-                ).length;
-
-            },
-
-
-            // Count animals under care.
-
-            careCount() {
-
-                return this.animals.filter(
-                    animal => animal.status === "Under Care"
-                ).length;
-
-            }
-
-        },
-
-
-        // VUE METHODS
-
-        methods: {
-
-            // Refresh records from localStorage.
-
-            refreshAnimals() {
-
-                this.animals = getAnimals();
-
-            },
-
-
-            // Get the correct status CSS class.
-
-            statusClass(status) {
-
-                return getStatusClass(status);
-
-            },
-
-
-            // Delete an animal record.
-
-            removeAnimal(id) {
-
-                deleteAnimal(id);
-
-                this.refreshAnimals();
-
-            }
-
-        }
-
-    });
-
-
-    // CONNECT VUE TO HTML
-
-    pawHavenAnimalsVueApp.mount("#animalsVueApp");
-
-    console.log(
-        "Paw Haven animal management is now powered by Vue.js."
-    );
-
-    return true;
-
-}
-
-
-// =====================================================
-// 15. REFRESH VUE ANIMAL MANAGEMENT
-// =====================================================
-
-function refreshAnimalManagementView() {
-
-    if (pawHavenAnimalsVueApp) {
-
-        pawHavenAnimalsVueApp.refreshAnimals();
-
-    } else {
-
-        displayAnimals();
-
-        updateAnimalPageStats();
-
-    }
-
-}
-
-
-// =====================================================
 // 16. PAGE INITIALISATION
 // =====================================================
-
 
 // LOGIN PAGE
 
@@ -1574,9 +1604,7 @@ function initialiseLoginPage() {
     const loginForm = getElement("loginForm");
 
     if (loginForm) {
-
         loginForm.onsubmit = handleLogin;
-
     }
 
 }
@@ -1591,9 +1619,7 @@ function initialiseRegistrationPage() {
         getElement("registerForm");
 
     if (registrationForm) {
-
         registrationForm.onsubmit = handleRegistration;
-
     }
 
 }
@@ -1620,14 +1646,7 @@ function initialiseAnimalsPage() {
 
     if (!getElement("animalsTable")) return;
 
-
-    // Start Vue.js.
-
     const vueMounted = createVueAnimalApp();
-
-
-    // Keep the original JavaScript version as a fallback
-    // if Vue.js cannot load.
 
     if (!vueMounted) {
 
@@ -1639,15 +1658,10 @@ function initialiseAnimalsPage() {
 
     }
 
-
-    // Connect the Add Animal form.
-
     const animalForm = getElement("animalForm");
 
     if (animalForm) {
-
         animalForm.onsubmit = addAnimal;
-
     }
 
 }
@@ -1659,11 +1673,17 @@ function initialiseApplicationsPage() {
 
     if (!getElement("applicationsTable")) return;
 
-    displayApplications();
+    const vueMounted = createVueApplicationsApp();
 
-    updateApplicationStats();
+    if (!vueMounted) {
 
-    setupApplicationSearch();
+        displayApplications();
+
+        updateApplicationStats();
+
+        setupApplicationSearch();
+
+    }
 
 }
 
@@ -1681,42 +1701,29 @@ function initialiseAboutPage() {
 // 17. MAIN INITIALISATION
 // =====================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
 
-
-    // Check whether the current user can access this page.
+    // Check login session.
 
     checkLoginSession();
 
-
-    // Display the signed-in user's information.
+    // Display signed-in user information.
 
     displayUserProfile();
 
+    // Update footer year.
 
-    // Set the current year in the footer.
+    setText("currentYear", new Date().getFullYear());
 
-    setText(
-        "currentYear",
-        new Date().getFullYear()
-    );
-
-
-    // Connect all logout links.
+    // Connect logout link.
 
     const logoutLink = getElement("logoutLink");
 
     if (logoutLink) {
-
-        logoutLink.addEventListener(
-            "click",
-            handleLogout
-        );
-
+        logoutLink.addEventListener("click", handleLogout);
     }
 
-
-    // Initialise the current page.
+    // Initialise all pages.
 
     initialiseLoginPage();
 
@@ -1730,15 +1737,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     initialiseAboutPage();
 
-
-    // Navigation functions.
+    // Navigation.
 
     setupMobileMenu();
 
     setActiveSidebarLink();
 
-
-    // Keep page statistics synchronised.
+    // Update statistics.
 
     refreshAllStatistics();
 
@@ -1751,29 +1756,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function createMalaysiaAdoptionChart() {
 
-    const chartElement = document.getElementById(
-        "malaysiaAdoptionChart"
-    );
+    const chartElement = getElement("malaysiaAdoptionChart");
 
     if (!chartElement) return;
 
-
     if (typeof ApexCharts === "undefined") {
-
         console.error("ApexCharts is not loaded.");
-
         return;
     }
 
-
-    // Remove the previous chart before creating a new one.
-
     if (chartElement._apexChart) {
-
         chartElement._apexChart.destroy();
-
     }
 
+    chartElement.innerHTML = "";
 
     const options = {
 
@@ -1782,98 +1778,63 @@ function createMalaysiaAdoptionChart() {
             data: [235, 187, 153]
         }],
 
-
         chart: {
             type: "bar",
             height: 350,
-
             toolbar: {
                 show: false
             },
-
             fontFamily: "DM Sans, sans-serif"
         },
 
-
         plotOptions: {
-
             bar: {
                 horizontal: false,
                 columnWidth: "35%",
                 borderRadius: 7
             }
-
         },
-
 
         colors: ["#71836b"],
 
-
         dataLabels: {
-
             enabled: true,
-
             style: {
                 colors: ["#71836b"]
             }
-
         },
-
 
         xaxis: {
-
-            categories: [
-                "2023",
-                "2024",
-                "2025"
-            ]
-
+            categories: ["2023", "2024", "2025"]
         },
 
-
         yaxis: {
-
             min: 0,
             max: 250,
             tickAmount: 5,
-
             title: {
                 text: "Number of animals adopted"
             }
-
         },
-
 
         grid: {
-
             borderColor: "#eee9e1",
-
             strokeDashArray: 4
-
         },
-
 
         legend: {
             show: false
         },
 
-
         tooltip: {
-
             y: {
-
-                formatter: function (value) {
-
+                formatter: function(value) {
                     return value + " animals adopted";
-
                 }
-
             }
-
         }
 
     };
-
 
     chartElement._apexChart = new ApexCharts(
         chartElement,
