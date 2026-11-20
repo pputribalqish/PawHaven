@@ -1,8 +1,9 @@
+//part 1//
+
 
 // =====================================================
 // PAW HAVEN - ANIMAL SHELTER MANAGEMENT SYSTEM
 // MAIN JAVASCRIPT
-// Vue.js Integration: Animal Management & Applications
 // =====================================================
 
 
@@ -19,91 +20,23 @@ const DEFAULT_ADMIN = {
 };
 
 const DEFAULT_ANIMALS = [
-    {
-        id: 1,
-        name: "Milo",
-        type: "Cat",
-        breed: "Persian",
-        age: "2 years",
-        gender: "Male",
-        status: "Available"
-    },
-    {
-        id: 2,
-        name: "Luna",
-        type: "Cat",
-        breed: "Domestic Shorthair",
-        age: "1 year",
-        gender: "Female",
-        status: "Available"
-    },
-    {
-        id: 3,
-        name: "Buddy",
-        type: "Dog",
-        breed: "Golden Retriever",
-        age: "3 years",
-        gender: "Male",
-        status: "Adopted"
-    },
-    {
-        id: 4,
-        name: "Coco",
-        type: "Dog",
-        breed: "Poodle",
-        age: "8 months",
-        gender: "Female",
-        status: "Under Care"
-    },
-    {
-        id: 5,
-        name: "Oreo",
-        type: "Rabbit",
-        breed: "Mini Lop",
-        age: "1 year",
-        gender: "Male",
-        status: "Available"
-    }
+    { id: 1, name: "Milo", type: "Cat", breed: "Persian", age: "2 years", gender: "Male", status: "Available" },
+    { id: 2, name: "Luna", type: "Cat", breed: "Domestic Shorthair", age: "1 year", gender: "Female", status: "Available" },
+    { id: 3, name: "Buddy", type: "Dog", breed: "Golden Retriever", age: "3 years", gender: "Male", status: "Adopted" },
+    { id: 4, name: "Coco", type: "Dog", breed: "Poodle", age: "8 months", gender: "Female", status: "Under Care" },
+    { id: 5, name: "Oreo", type: "Rabbit", breed: "Mini Lop", age: "1 year", gender: "Male", status: "Available" }
 ];
 
 const DEFAULT_APPLICATIONS = [
-    {
-        id: 1,
-        applicant: "Sarah Tan",
-        animal: "Milo",
-        email: "sarah@gmail.com",
-        date: "2026-10-20",
-        status: "Pending"
-    },
-    {
-        id: 2,
-        applicant: "Adam Lee",
-        animal: "Buddy",
-        email: "adam@gmail.com",
-        date: "2026-10-22",
-        status: "Approved"
-    },
-    {
-        id: 3,
-        applicant: "Aina Rahman",
-        animal: "Luna",
-        email: "aina@gmail.com",
-        date: "2026-10-25",
-        status: "Pending"
-    },
-    {
-        id: 4,
-        applicant: "Daniel Wong",
-        animal: "Coco",
-        email: "daniel@gmail.com",
-        date: "2026-10-28",
-        status: "Declined"
-    }
+    { id: 1, applicant: "Sarah Tan", animal: "Milo", email: "sarah@gmail.com", date: "2026-10-20", status: "Pending" },
+    { id: 2, applicant: "Adam Lee", animal: "Buddy", email: "adam@gmail.com", date: "2026-10-22", status: "Approved" },
+    { id: 3, applicant: "Aina Rahman", animal: "Luna", email: "aina@gmail.com", date: "2026-10-25", status: "Pending" },
+    { id: 4, applicant: "Daniel Wong", animal: "Coco", email: "daniel@gmail.com", date: "2026-10-28", status: "Declined" }
 ];
 
 
 // =====================================================
-// 2. LOCAL STORAGE FUNCTIONS
+// 2. LOCAL STORAGE
 // =====================================================
 
 function getStorageData(key, defaultValue) {
@@ -116,7 +49,6 @@ function getStorageData(key, defaultValue) {
         }
 
         return JSON.parse(savedData);
-
     } catch (error) {
         console.error("Storage error:", error);
         return defaultValue;
@@ -127,7 +59,6 @@ function saveStorageData(key, data) {
     try {
         localStorage.setItem(key, JSON.stringify(data));
         return true;
-
     } catch (error) {
         console.error("Unable to save data:", error);
         return false;
@@ -135,11 +66,7 @@ function saveStorageData(key, data) {
 }
 
 function getAnimals() {
-    const animals = getStorageData(
-        "pawhaven_animals",
-        DEFAULT_ANIMALS
-    );
-
+    const animals = getStorageData("pawhaven_animals", DEFAULT_ANIMALS);
     return Array.isArray(animals) ? animals : DEFAULT_ANIMALS;
 }
 
@@ -148,14 +75,8 @@ function saveAnimals(animals) {
 }
 
 function getApplications() {
-    const applications = getStorageData(
-        "pawhaven_applications",
-        DEFAULT_APPLICATIONS
-    );
-
-    return Array.isArray(applications)
-        ? applications
-        : DEFAULT_APPLICATIONS;
+    const applications = getStorageData("pawhaven_applications", DEFAULT_APPLICATIONS);
+    return Array.isArray(applications) ? applications : DEFAULT_APPLICATIONS;
 }
 
 function saveApplications(applications) {
@@ -181,8 +102,7 @@ function getElement(id) {
 }
 
 function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, function(character) {
-
+    return String(value ?? "").replace(/[&<>"']/g, character => {
         const characters = {
             "&": "&amp;",
             "<": "&lt;",
@@ -197,7 +117,6 @@ function escapeHTML(value) {
 
 function showMessage(elementId, message, type = "danger") {
     const element = getElement(elementId);
-
     if (!element) return;
 
     element.textContent = message;
@@ -207,7 +126,6 @@ function showMessage(elementId, message, type = "danger") {
 
 function hideMessage(elementId) {
     const element = getElement(elementId);
-
     if (!element) return;
 
     element.textContent = "";
@@ -216,14 +134,8 @@ function hideMessage(elementId) {
 
 function getCurrentUser() {
     try {
-        const savedUser = localStorage.getItem(
-            "pawhaven_current_user"
-        );
-
-        if (!savedUser) return null;
-
-        return JSON.parse(savedUser);
-
+        const savedUser = localStorage.getItem("pawhaven_current_user");
+        return savedUser ? JSON.parse(savedUser) : null;
     } catch (error) {
         console.error("Current user error:", error);
         return null;
@@ -235,9 +147,7 @@ function formatDate(date) {
 
     const formattedDate = new Date(date + "T00:00:00");
 
-    if (isNaN(formattedDate.getTime())) {
-        return date;
-    }
+    if (isNaN(formattedDate.getTime())) return date;
 
     return formattedDate.toLocaleDateString("en-MY", {
         day: "numeric",
@@ -247,7 +157,6 @@ function formatDate(date) {
 }
 
 function getStatusClass(status) {
-
     const statusClasses = {
         "Available": "status-available",
         "Adopted": "status-adopted",
@@ -262,10 +171,7 @@ function getStatusClass(status) {
 
 function setText(id, value) {
     const element = getElement(id);
-
-    if (element) {
-        element.textContent = value;
-    }
+    if (element) element.textContent = value;
 }
 
 
@@ -275,50 +181,40 @@ function setText(id, value) {
 
 function handleLogin(event) {
     event.preventDefault();
-
     hideMessage("loginMessage");
 
     const usernameInput = getElement("username");
     const passwordInput = getElement("password");
 
-    if (!usernameInput || !passwordInput) return;
+    if (!usernameInput || !passwordInput) {
+        console.error("Login username or password field was not found.");
+        return;
+    }
 
     const username = usernameInput.value.trim();
     const password = passwordInput.value;
 
     if (!username || !password) {
-        showMessage(
-            "loginMessage",
-            "Please enter your username and password."
-        );
+        showMessage("loginMessage", "Please enter your username and password.");
         return;
     }
 
     let loggedInUser = null;
 
     if (
-        username === DEFAULT_ADMIN.username &&
+        username.toLowerCase() === DEFAULT_ADMIN.username &&
         password === DEFAULT_ADMIN.password
     ) {
         loggedInUser = DEFAULT_ADMIN;
-
     } else {
-
-        loggedInUser = getUsers().find(function(user) {
-
-            return (
-                user.username.toLowerCase() === username.toLowerCase() &&
-                user.password === password
-            );
-
-        });
+        loggedInUser = getUsers().find(user =>
+            String(user.username || "").toLowerCase() === username.toLowerCase() &&
+            user.password === password
+        );
     }
 
     if (!loggedInUser) {
-        showMessage(
-            "loginMessage",
-            "Incorrect username or password. Please try again."
-        );
+        showMessage("loginMessage", "Incorrect username or password. Please try again.");
         return;
     }
 
@@ -329,17 +225,24 @@ function handleLogin(event) {
         role: loggedInUser.role || "user"
     };
 
-    if (saveStorageData("pawhaven_current_user", currentUser)) {
+    const saved = saveStorageData("pawhaven_current_user", currentUser);
 
-        window.location.href = "dashboard.html";
-
-    } else {
-
-        showMessage(
-            "loginMessage",
-            "Unable to save your login session. Please try again."
-        );
+    if (!saved) {
+        showMessage("loginMessage", "Unable to save your login session. Please try again.");
+        return;
     }
+
+    // Redirect to dashboard after successful login.
+    window.location.replace("dashboard.html");
+}
+
+function initialiseLoginPage() {
+    const loginForm = getElement("loginForm");
+    if (!loginForm) return;
+
+    // Prevent duplicate event listeners.
+    loginForm.removeEventListener("submit", handleLogin);
+    loginForm.addEventListener("submit", handleLogin);
 }
 
 
@@ -349,7 +252,6 @@ function handleLogin(event) {
 
 function handleRegistration(event) {
     event.preventDefault();
-
     hideMessage("registerMessage");
 
     const fullName = getElement("fullName")?.value.trim();
@@ -359,10 +261,7 @@ function handleRegistration(event) {
     const confirmPassword = getElement("confirmPassword")?.value;
 
     if (!fullName || !email || !username || !password || !confirmPassword) {
-        showMessage(
-            "registerMessage",
-            "Please complete all required fields."
-        );
+        showMessage("registerMessage", "Please complete all required fields.");
         return;
     }
 
@@ -372,49 +271,30 @@ function handleRegistration(event) {
         getElement("termsCheckbox");
 
     if (termsCheckbox && !termsCheckbox.checked) {
-        showMessage(
-            "registerMessage",
-            "Please agree to the terms and conditions."
-        );
+        showMessage("registerMessage", "Please agree to the terms and conditions.");
         return;
     }
 
     if (password.length < 6) {
-        showMessage(
-            "registerMessage",
-            "Password must contain at least 6 characters."
-        );
+        showMessage("registerMessage", "Password must contain at least 6 characters.");
         return;
     }
 
     if (password !== confirmPassword) {
-        showMessage(
-            "registerMessage",
-            "Passwords do not match."
-        );
+        showMessage("registerMessage", "Passwords do not match.");
         return;
     }
 
     const users = getUsers();
 
-    const existingUser = users.find(function(user) {
+    const usernameExists = username.toLowerCase() === "admin" ||
+        users.some(user => String(user.username || "").toLowerCase() === username.toLowerCase());
 
-        return (
-            user.username.toLowerCase() === username.toLowerCase() ||
-            user.email.toLowerCase() === email.toLowerCase()
-        );
+    const emailExists = email.toLowerCase() === "admin@pawhaven.com" ||
+        users.some(user => String(user.email || "").toLowerCase() === email.toLowerCase());
 
-    });
-
-    if (
-        username.toLowerCase() === "admin" ||
-        email.toLowerCase() === "admin@pawhaven.com" ||
-        existingUser
-    ) {
-        showMessage(
-            "registerMessage",
-            "This username or email is already registered."
-        );
+    if (usernameExists || emailExists) {
+        showMessage("registerMessage", "This username or email is already registered.");
         return;
     }
 
@@ -428,22 +308,25 @@ function handleRegistration(event) {
     });
 
     if (!saveUsers(users)) {
-        showMessage(
-            "registerMessage",
-            "Registration failed. Please try again."
-        );
+        showMessage("registerMessage", "Registration failed. Please try again.");
         return;
     }
 
-    showMessage(
-        "registerMessage",
-        "Registration successful! Redirecting to login...",
-        "success"
-    );
+    showMessage("registerMessage", "Registration successful! Redirecting to login...", "success");
 
-    setTimeout(function() {
-        window.location.href = "login.html";
+    setTimeout(() => {
+        window.location.replace("login.html");
     }, 1500);
+}
+
+function initialiseRegistrationPage() {
+    const registrationForm =
+        getElement("registrationForm") ||
+        getElement("registerForm");
+
+    if (!registrationForm) return;
+
+    registrationForm.addEventListener("submit", handleRegistration);
 }
 
 
@@ -455,16 +338,11 @@ function handleLogout(event) {
     if (event) event.preventDefault();
 
     localStorage.removeItem("pawhaven_current_user");
-
     window.location.replace("index.html");
 }
 
 function checkLoginSession() {
-
-    const currentPage = window.location.pathname
-        .split("/")
-        .pop()
-        .toLowerCase();
+    const currentPage = window.location.pathname.split("/").pop().toLowerCase();
 
     const protectedPages = [
         "dashboard.html",
@@ -475,17 +353,13 @@ function checkLoginSession() {
 
     const currentUser = getCurrentUser();
 
-    if (
-        protectedPages.includes(currentPage) &&
-        !currentUser
-    ) {
+    if (protectedPages.includes(currentPage) && !currentUser) {
         window.location.replace("login.html");
         return;
     }
 
     if (
-        (currentPage === "login.html" ||
-         currentPage === "registration.html") &&
+        (currentPage === "login.html" || currentPage === "registration.html") &&
         currentUser
     ) {
         window.location.replace("dashboard.html");
@@ -498,9 +372,7 @@ function checkLoginSession() {
 // =====================================================
 
 function displayUserProfile() {
-
     const user = getCurrentUser();
-
     if (!user) return;
 
     setText("adminName", user.name);
@@ -509,89 +381,47 @@ function displayUserProfile() {
     const avatar = getElement("adminAvatar");
 
     if (avatar) {
-
-        const initials = user.name
+        avatar.textContent = user.name
             .split(" ")
             .filter(Boolean)
             .map(word => word.charAt(0))
             .join("")
             .substring(0, 2)
             .toUpperCase();
-
-        avatar.textContent = initials;
     }
 }
 
 
 // =====================================================
-// 8. STATISTICS
+// 8. DASHBOARD STATISTICS
 // =====================================================
 
 function updateDashboardStats() {
-
     const animals = getAnimals();
     const applications = getApplications();
 
     setText("totalAnimals", animals.length);
-
-    setText(
-        "availableAnimals",
-        animals.filter(animal => animal.status === "Available").length
-    );
-
-    setText(
-        "adoptedAnimals",
-        animals.filter(animal => animal.status === "Adopted").length
-    );
-
-    setText(
-        "pendingApplications",
-        applications.filter(app => app.status === "Pending").length
-    );
-
-    setText(
-        "sidePending",
-        applications.filter(app => app.status === "Pending").length
-    );
+    setText("availableAnimals", animals.filter(a => a.status === "Available").length);
+    setText("adoptedAnimals", animals.filter(a => a.status === "Adopted").length);
+    setText("pendingApplications", applications.filter(a => a.status === "Pending").length);
+    setText("sidePending", applications.filter(a => a.status === "Pending").length);
 }
 
 function updateAnimalPageStats() {
-
     const animals = getAnimals();
 
     setText("animalTotalCount", animals.length);
-
-    setText(
-        "animalAvailableCount",
-        animals.filter(animal => animal.status === "Available").length
-    );
-
-    setText(
-        "animalAdoptedCount",
-        animals.filter(animal => animal.status === "Adopted").length
-    );
-
-    setText(
-        "animalCareCount",
-        animals.filter(animal => animal.status === "Under Care").length
-    );
+    setText("animalAvailableCount", animals.filter(a => a.status === "Available").length);
+    setText("animalAdoptedCount", animals.filter(a => a.status === "Adopted").length);
+    setText("animalCareCount", animals.filter(a => a.status === "Under Care").length);
 }
 
 function updateApplicationStats() {
-
     const applications = getApplications();
 
-    const pending = applications.filter(
-        app => app.status === "Pending"
-    ).length;
-
-    const approved = applications.filter(
-        app => app.status === "Approved"
-    ).length;
-
-    const declined = applications.filter(
-        app => app.status === "Declined"
-    ).length;
+    const pending = applications.filter(a => a.status === "Pending").length;
+    const approved = applications.filter(a => a.status === "Approved").length;
+    const declined = applications.filter(a => a.status === "Declined").length;
 
     setText("totalApplicationCount", applications.length);
     setText("pendingApplicationCount", pending);
@@ -615,23 +445,17 @@ function refreshAllStatistics() {
 // =====================================================
 
 function displayRecentAnimals() {
-
     const tableBody = getElement("recentAnimalsTable");
-
     if (!tableBody) return;
 
     const recentAnimals = getAnimals().slice(-5).reverse();
 
     if (recentAnimals.length === 0) {
-
         tableBody.innerHTML = `
             <tr>
-                <td colspan="5" class="text-center">
-                    No animal records available.
-                </td>
+                <td colspan="5" class="text-center">No animal records available.</td>
             </tr>
         `;
-
         return;
     }
 
@@ -656,7 +480,6 @@ function displayRecentAnimals() {
 // =====================================================
 
 function createDashboardCharts() {
-
     if (typeof ApexCharts === "undefined") {
         console.warn("ApexCharts is not loaded.");
         return;
@@ -665,26 +488,16 @@ function createDashboardCharts() {
     const animals = getAnimals();
     const applications = getApplications();
 
-
-    // ANIMALS BY SPECIES - DONUT CHART
-
+    // Animals by species - donut chart.
     const speciesChartElement = getElement("statusChart");
 
     if (speciesChartElement) {
-
         const speciesCounts = {};
 
         animals.forEach(animal => {
-
             const species = animal.type || "Other";
-
-            speciesCounts[species] =
-                (speciesCounts[species] || 0) + 1;
-
+            speciesCounts[species] = (speciesCounts[species] || 0) + 1;
         });
-
-        const speciesLabels = Object.keys(speciesCounts);
-        const speciesValues = Object.values(speciesCounts);
 
         if (speciesChartElement._apexChart) {
             speciesChartElement._apexChart.destroy();
@@ -692,53 +505,27 @@ function createDashboardCharts() {
 
         speciesChartElement.innerHTML = "";
 
-        speciesChartElement._apexChart = new ApexCharts(
-            speciesChartElement,
-            {
-                chart: {
-                    type: "donut",
-                    height: 280
-                },
-
-                series: speciesValues,
-
-                labels: speciesLabels,
-
-                colors: [
-                    "#71836b",
-                    "#e8b99e",
-                    "#b8a9cc",
-                    "#d6c6a8"
-                ],
-
-                legend: {
-                    position: "bottom"
-                },
-
-                dataLabels: {
-                    enabled: true
-                },
-
-                plotOptions: {
-                    pie: {
-                        donut: {
-                            size: "65%"
-                        }
-                    }
+        speciesChartElement._apexChart = new ApexCharts(speciesChartElement, {
+            chart: { type: "donut", height: 280 },
+            series: Object.values(speciesCounts),
+            labels: Object.keys(speciesCounts),
+            colors: ["#71836b", "#e8b99e", "#b8a9cc", "#d6c6a8"],
+            legend: { position: "bottom" },
+            dataLabels: { enabled: true },
+            plotOptions: {
+                pie: {
+                    donut: { size: "65%" }
                 }
             }
-        );
+        });
 
         speciesChartElement._apexChart.render();
     }
 
-
-    // APPROVED ADOPTIONS PER MONTH - AREA CHART
-
+    // Approved adoptions per month - area chart.
     const adoptionChartElement = getElement("adoptionChart");
 
     if (adoptionChartElement) {
-
         const year = new Date().getFullYear();
 
         const monthLabels = [
@@ -749,23 +536,13 @@ function createDashboardCharts() {
         const monthlyAdoptions = Array(12).fill(0);
 
         applications.forEach(application => {
-
-            if (
-                application.status !== "Approved" ||
-                !application.date
-            ) {
-                return;
-            }
+            if (application.status !== "Approved" || !application.date) return;
 
             const date = new Date(application.date + "T00:00:00");
 
-            if (
-                !isNaN(date.getTime()) &&
-                date.getFullYear() === year
-            ) {
+            if (!isNaN(date.getTime()) && date.getFullYear() === year) {
                 monthlyAdoptions[date.getMonth()]++;
             }
-
         });
 
         if (adoptionChartElement._apexChart) {
@@ -774,63 +551,34 @@ function createDashboardCharts() {
 
         adoptionChartElement.innerHTML = "";
 
-        adoptionChartElement._apexChart = new ApexCharts(
-            adoptionChartElement,
-            {
-                chart: {
-                    type: "area",
-                    height: 280,
-                    toolbar: {
-                        show: false
-                    }
-                },
-
-                series: [{
-                    name: "Approved Adoptions",
-                    data: monthlyAdoptions
-                }],
-
-                xaxis: {
-                    categories: monthLabels
-                },
-
-                colors: ["#71836b"],
-
-                stroke: {
-                    curve: "smooth",
-                    width: 3
-                },
-
-                fill: {
-                    type: "gradient",
-                    gradient: {
-                        opacityFrom: 0.4,
-                        opacityTo: 0.05
-                    }
-                },
-
-                dataLabels: {
-                    enabled: false
-                },
-
-                grid: {
-                    borderColor: "#e9e6de"
-                },
-
-                yaxis: {
-                    min: 0,
-                    forceNiceScale: true
-                },
-
-                legend: {
-                    show: false
-                }
-            }
-        );
+        adoptionChartElement._apexChart = new ApexCharts(adoptionChartElement, {
+            chart: {
+                type: "area",
+                height: 280,
+                toolbar: { show: false }
+            },
+            series: [{
+                name: "Approved Adoptions",
+                data: monthlyAdoptions
+            }],
+            xaxis: { categories: monthLabels },
+            colors: ["#71836b"],
+            stroke: { curve: "smooth", width: 3 },
+            fill: {
+                type: "gradient",
+                gradient: { opacityFrom: 0.4, opacityTo: 0.05 }
+            },
+            dataLabels: { enabled: false },
+            grid: { borderColor: "#e9e6de" },
+            yaxis: { min: 0, forceNiceScale: true },
+            legend: { show: false }
+        });
 
         adoptionChartElement._apexChart.render();
     }
 }
+
+//part 2//
 
 
 // =====================================================
@@ -838,21 +586,15 @@ function createDashboardCharts() {
 // =====================================================
 
 function renderAnimalRows(animals) {
-
     const tableBody = getElement("animalsTable");
-
     if (!tableBody) return;
 
     if (animals.length === 0) {
-
         tableBody.innerHTML = `
             <tr>
-                <td colspan="7" class="text-center">
-                    No animal records found.
-                </td>
+                <td colspan="7" class="text-center">No animal records found.</td>
             </tr>
         `;
-
         return;
     }
 
@@ -874,9 +616,7 @@ function renderAnimalRows(animals) {
                     type="button"
                     onclick="deleteAnimal(${Number(animal.id)})"
                     aria-label="Delete ${escapeHTML(animal.name)}">
-
                     <i class="fas fa-trash"></i>
-
                 </button>
             </td>
         </tr>
@@ -888,10 +628,8 @@ function displayAnimals() {
 }
 
 
-// ADD ANIMAL
-
+// Add animal.
 function addAnimal(event) {
-
     event.preventDefault();
 
     const name = getElement("animalName")?.value.trim();
@@ -924,93 +662,68 @@ function addAnimal(event) {
     }
 
     const form = getElement("animalForm");
-
     if (form) form.reset();
 
     closeAnimalModal();
-
     refreshAnimalManagementView();
-
     displayRecentAnimals();
-
     refreshAllStatistics();
-
     createDashboardCharts();
 
     alert("Animal record added successfully!");
 }
 
 
-// DELETE ANIMAL
-
+// Delete animal.
 function deleteAnimal(id) {
-
-    const confirmDelete = confirm(
-        "Are you sure you want to delete this animal record?"
-    );
-
+    const confirmDelete = confirm("Are you sure you want to delete this animal record?");
     if (!confirmDelete) return;
 
     const animals = getAnimals().filter(
         animal => Number(animal.id) !== Number(id)
     );
 
-    saveAnimals(animals);
+    if (!saveAnimals(animals)) {
+        alert("Unable to delete animal record.");
+        return;
+    }
 
     refreshAnimalManagementView();
-
     displayRecentAnimals();
-
     refreshAllStatistics();
-
     createDashboardCharts();
 
     alert("Animal record deleted successfully!");
 }
 
 
-// OPEN AND CLOSE MODAL
-
+// Open and close animal modal.
 function openAnimalModal() {
-
     const modal = getElement("addAnimalModal");
-
-    if (modal) {
-        modal.classList.add("show");
-    }
+    if (modal) modal.classList.add("show");
 }
 
 function closeAnimalModal() {
-
     const modal = getElement("addAnimalModal");
-
-    if (modal) {
-        modal.classList.remove("show");
-    }
+    if (modal) modal.classList.remove("show");
 }
 
 
-// ORIGINAL SEARCH FALLBACK
-
+// Original JavaScript search fallback.
 function setupAnimalSearch() {
-
     const searchInput = getElement("animalSearch");
     const filterInput = getElement("animalFilter");
 
     if (!searchInput && !filterInput) return;
 
     function filterAnimals() {
-
         const searchValue = searchInput
             ? searchInput.value.toLowerCase().trim()
             : "";
 
-        const filterValue = filterInput
-            ? filterInput.value
-            : "";
+        const filterValue = filterInput ? filterInput.value : "";
 
         const filteredAnimals = getAnimals().filter(animal => {
-
             const name = String(animal.name || "").toLowerCase();
             const type = String(animal.type || "").toLowerCase();
             const breed = String(animal.breed || "").toLowerCase();
@@ -1021,8 +734,7 @@ function setupAnimalSearch() {
                 breed.includes(searchValue);
 
             const matchesStatus =
-                filterValue === "" ||
-                animal.status === filterValue;
+                filterValue === "" || animal.status === filterValue;
 
             return matchesSearch && matchesStatus;
         });
@@ -1044,31 +756,288 @@ function setupAnimalSearch() {
 // 12. APPLICATION MANAGEMENT
 // =====================================================
 
+function renderApplicationRows(applications) {
+    const tableBody = getElement("applicationsTable");
+    if (!tableBody) return;
+
+    if (applications.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center">
+                    No adoption applications found.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tableBody.innerHTML = applications.map(application => `
+        <tr>
+            <td>${escapeHTML(application.applicant)}</td>
+            <td>${escapeHTML(application.animal)}</td>
+            <td>${escapeHTML(application.email)}</td>
+            <td>${formatDate(application.date)}</td>
+            <td>
+                <span class="status-badge ${getStatusClass(application.status)}">
+                    ${escapeHTML(application.status)}
+                </span>
+            </td>
+            <td>
+                <select
+                    class="form-select form-select-sm"
+                    aria-label="Change application status"
+                    onchange="updateApplicationStatus(${Number(application.id)}, this.value)">
+                    <option value="Pending" ${application.status === "Pending" ? "selected" : ""}>Pending</option>
+                    <option value="Approved" ${application.status === "Approved" ? "selected" : ""}>Approved</option>
+                    <option value="Declined" ${application.status === "Declined" ? "selected" : ""}>Declined</option>
+                </select>
+            </td>
+        </tr>
+    `).join("");
+}
+
+function displayApplications() {
+    renderApplicationRows(getApplications());
+}
+
+
+// Change application status.
+function updateApplicationStatus(id, newStatus) {
+    const validStatuses = ["Pending", "Approved", "Declined"];
+
+    if (!validStatuses.includes(newStatus)) {
+        alert("Invalid application status.");
+        return;
+    }
+
+    const applications = getApplications();
+    const application = applications.find(
+        item => Number(item.id) === Number(id)
+    );
+
+    if (!application) {
+        alert("Application record could not be found.");
+        return;
+    }
+
+    application.status = newStatus;
+
+    if (!saveApplications(applications)) {
+        alert("Unable to update application status.");
+        return;
+    }
+
+    // If an application is approved, mark its animal as adopted.
+    if (newStatus === "Approved") {
+        const animals = getAnimals();
+        const relatedAnimal = animals.find(
+            animal => animal.name === application.animal
+        );
+
+        if (relatedAnimal) {
+            relatedAnimal.status = "Adopted";
+            saveAnimals(animals);
+        }
+    }
+
+    refreshApplicationManagementView();
+    refreshAllStatistics();
+    displayRecentAnimals();
+    createDashboardCharts();
+}
+
+
+// Search and filter fallback for Applications page.
+function setupApplicationSearch() {
+    const searchInput =
+        getElement("applicationSearch") ||
+        getElement("applicationsSearch");
+
+    const filterInput =
+        getElement("applicationFilter") ||
+        getElement("applicationStatusFilter");
+
+    if (!searchInput && !filterInput) return;
+
+    function filterApplications() {
+        const searchValue = searchInput
+            ? searchInput.value.toLowerCase().trim()
+            : "";
+
+        const filterValue = filterInput ? filterInput.value : "";
+
+        const filtered = getApplications().filter(application => {
+            const applicant = String(application.applicant || "").toLowerCase();
+            const animal = String(application.animal || "").toLowerCase();
+            const email = String(application.email || "").toLowerCase();
+
+            const matchesSearch =
+                applicant.includes(searchValue) ||
+                animal.includes(searchValue) ||
+                email.includes(searchValue);
+
+            const matchesStatus =
+                !filterValue || application.status === filterValue;
+
+            return matchesSearch && matchesStatus;
+        });
+
+        renderApplicationRows(filtered);
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener("input", filterApplications);
+    }
+
+    if (filterInput) {
+        filterInput.addEventListener("change", filterApplications);
+    }
+}
+
+
 // =====================================================
-// 14. VUE.JS - APPLICATION MANAGEMENT
+// 13. ANIMAL IMAGE HELPER
+// =====================================================
+
+function getAnimalImage(type) {
+    const images = {
+        Cat: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=700",
+        Dog: "https://images.unsplash.com/photo-1552053831-71594a27632d?w=700",
+        Rabbit: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=700"
+    };
+
+    return images[type] ||
+        "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=700";
+}
+
+
+// =====================================================
+// 14. VUE.JS - ANIMAL MANAGEMENT
+// =====================================================
+
+let pawHavenAnimalsVueApp = null;
+let pawHavenAnimalsVueInstance = null;
+
+function createVueAnimalApp() {
+    const appElement = getElement("animalsVueApp");
+
+    if (!appElement || typeof Vue === "undefined") {
+        console.warn("Animal Management Vue.js is unavailable.");
+        return false;
+    }
+
+    if (pawHavenAnimalsVueInstance) {
+        pawHavenAnimalsVueInstance.refreshAnimals();
+        return true;
+    }
+
+    try {
+        pawHavenAnimalsVueApp = Vue.createApp({
+            data() {
+                return {
+                    animals: getAnimals(),
+                    searchQuery: "",
+                    statusFilter: ""
+                };
+            },
+
+            computed: {
+                filteredAnimals() {
+                    const search = this.searchQuery.toLowerCase().trim();
+
+                    return this.animals.filter(animal => {
+                        const name = String(animal.name || "").toLowerCase();
+                        const type = String(animal.type || "").toLowerCase();
+                        const breed = String(animal.breed || "").toLowerCase();
+
+                        const matchesSearch =
+                            name.includes(search) ||
+                            type.includes(search) ||
+                            breed.includes(search);
+
+                        const matchesStatus =
+                            !this.statusFilter ||
+                            animal.status === this.statusFilter;
+
+                        return matchesSearch && matchesStatus;
+                    });
+                },
+
+                availableCount() {
+                    return this.animals.filter(a => a.status === "Available").length;
+                },
+
+                adoptedCount() {
+                    return this.animals.filter(a => a.status === "Adopted").length;
+                },
+
+                careCount() {
+                    return this.animals.filter(a => a.status === "Under Care").length;
+                }
+            },
+
+            methods: {
+                refreshAnimals() {
+                    this.animals = getAnimals();
+                },
+
+                statusClass(status) {
+                    return getStatusClass(status);
+                },
+
+                removeAnimal(id) {
+                    deleteAnimal(id);
+                    this.refreshAnimals();
+                }
+            }
+        });
+
+        pawHavenAnimalsVueInstance =
+            pawHavenAnimalsVueApp.mount("#animalsVueApp");
+
+        console.log("Paw Haven Animal Management Vue.js connected.");
+        return true;
+
+    } catch (error) {
+        console.error("Unable to initialise Animal Management Vue:", error);
+        pawHavenAnimalsVueApp = null;
+        pawHavenAnimalsVueInstance = null;
+        return false;
+    }
+}
+
+function refreshAnimalManagementView() {
+    if (pawHavenAnimalsVueInstance) {
+        pawHavenAnimalsVueInstance.refreshAnimals();
+    } else {
+        displayAnimals();
+        updateAnimalPageStats();
+    }
+}
+
+
+// =====================================================
+// 15. VUE.JS - APPLICATION MANAGEMENT
 // =====================================================
 
 let pawHavenApplicationsVueApp = null;
 let pawHavenApplicationsVueInstance = null;
 
 function createVueApplicationsApp() {
-
     const appElement = getElement("applicationsVueApp");
 
-    if (!appElement) {
-        console.warn("Applications Vue container not found.");
+    if (!appElement || typeof Vue === "undefined") {
+        console.warn("Applications Vue.js is unavailable.");
         return false;
     }
 
-    if (typeof Vue === "undefined") {
-        console.error("Vue.js is not loaded.");
-        return false;
+    if (pawHavenApplicationsVueInstance) {
+        pawHavenApplicationsVueInstance.refreshApplications();
+        return true;
     }
 
     try {
-
         pawHavenApplicationsVueApp = Vue.createApp({
-
             data() {
                 return {
                     applications: getApplications(),
@@ -1079,26 +1048,13 @@ function createVueApplicationsApp() {
             },
 
             computed: {
-
                 filteredApplications() {
-
-                    const search = this.searchQuery
-                        .toLowerCase()
-                        .trim();
+                    const search = this.searchQuery.toLowerCase().trim();
 
                     return this.applications.filter(application => {
-
-                        const applicant = String(
-                            application.applicant || ""
-                        ).toLowerCase();
-
-                        const animal = String(
-                            application.animal || ""
-                        ).toLowerCase();
-
-                        const email = String(
-                            application.email || ""
-                        ).toLowerCase();
+                        const applicant = String(application.applicant || "").toLowerCase();
+                        const animal = String(application.animal || "").toLowerCase();
+                        const email = String(application.email || "").toLowerCase();
 
                         const matchesSearch =
                             applicant.includes(search) ||
@@ -1110,475 +1066,107 @@ function createVueApplicationsApp() {
                             application.status === this.statusFilter;
 
                         return matchesSearch && matchesStatus;
-
                     });
-
                 },
 
                 pendingCount() {
-
-                    return this.applications.filter(
-                        app => app.status === "Pending"
-                    ).length;
-
+                    return this.applications.filter(a => a.status === "Pending").length;
                 },
 
                 approvedCount() {
-
-                    return this.applications.filter(
-                        app => app.status === "Approved"
-                    ).length;
-
+                    return this.applications.filter(a => a.status === "Approved").length;
                 },
 
                 declinedCount() {
-
-                    return this.applications.filter(
-                        app => app.status === "Declined"
-                    ).length;
-
+                    return this.applications.filter(a => a.status === "Declined").length;
                 },
 
                 applicationAnimalCards() {
-
                     const animalNames = [
                         ...new Set(
                             this.applications
-                                .map(app => app.animal)
+                                .map(application => application.animal)
                                 .filter(Boolean)
                         )
                     ];
 
                     return animalNames.map(name => {
-
                         const animal = this.animals.find(
                             item => item.name === name
                         ) || {};
 
-                        const relatedApplications =
-                            this.applications.filter(
-                                app => app.animal === name
-                            );
+                        const relatedApplications = this.applications.filter(
+                            application => application.animal === name
+                        );
 
                         return {
-
                             name: name,
-
                             type: animal.type || "Animal",
-
                             breed: animal.breed || "Shelter animal",
-
                             image: getAnimalImage(animal.type),
-
-                            applicants: relatedApplications.map(app => ({
-                                name: app.applicant,
-                                status: app.status,
-                                date: app.date
+                            applicants: relatedApplications.map(application => ({
+                                name: application.applicant,
+                                status: application.status,
+                                date: application.date
                             }))
-
                         };
-
                     });
-
                 }
-
             },
 
             methods: {
-
                 refreshApplications() {
-
                     this.applications = getApplications();
                     this.animals = getAnimals();
-
                 },
 
                 statusClass(status) {
-
                     return getStatusClass(status);
-
                 },
 
                 formatApplicationDate(date) {
-
                     return formatDate(date);
-
                 },
 
                 changeStatus(id, newStatus) {
-
                     updateApplicationStatus(id, newStatus);
-
                     this.refreshApplications();
-
                 }
-
             }
-
         });
 
         pawHavenApplicationsVueInstance =
             pawHavenApplicationsVueApp.mount("#applicationsVueApp");
 
         console.log("Paw Haven Applications Vue.js connected.");
-
         return true;
 
     } catch (error) {
-
-        console.error(
-            "Unable to initialise Applications Vue:",
-            error
-        );
-
+        console.error("Unable to initialise Applications Vue:", error);
         pawHavenApplicationsVueApp = null;
         pawHavenApplicationsVueInstance = null;
-
         return false;
-
     }
-
 }
-
-
-// =====================================================
-// ANIMAL IMAGE
-// =====================================================
-
-function getAnimalImage(type) {
-
-    const images = {
-
-        Cat:
-        "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=700",
-
-        Dog:
-        "https://images.unsplash.com/photo-1552053831-71594a27632d?w=700",
-
-        Rabbit:
-        "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=700"
-
-    };
-
-    return images[type] ||
-        "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=700";
-
-}
-
-
-// =====================================================
-// REFRESH APPLICATION MANAGEMENT
-// =====================================================
 
 function refreshApplicationManagementView() {
-
     if (pawHavenApplicationsVueInstance) {
-
         pawHavenApplicationsVueInstance.refreshApplications();
-
     } else {
-
         displayApplications();
-
         updateApplicationStats();
-
-    }
-
-}
-
-
-
-// =====================================================
-// 13. VUE.JS - ANIMAL MANAGEMENT
-// =====================================================
-
-let pawHavenAnimalsVueApp = null;
-
-function createVueAnimalApp() {
-
-    const appElement = getElement("animalsVueApp");
-
-    if (!appElement || typeof Vue === "undefined") {
-        console.warn("Vue.js is unavailable.");
-        return false;
-    }
-
-    if (pawHavenAnimalsVueApp) {
-        pawHavenAnimalsVueApp.refreshAnimals();
-        return true;
-    }
-
-    pawHavenAnimalsVueApp = Vue.createApp({
-
-        data() {
-
-            return {
-                animals: getAnimals(),
-                searchQuery: "",
-                statusFilter: ""
-            };
-
-        },
-
-        computed: {
-
-            filteredAnimals() {
-
-                const search = this.searchQuery
-                    .toLowerCase()
-                    .trim();
-
-                return this.animals.filter(animal => {
-
-                    const name = String(
-                        animal.name || ""
-                    ).toLowerCase();
-
-                    const type = String(
-                        animal.type || ""
-                    ).toLowerCase();
-
-                    const breed = String(
-                        animal.breed || ""
-                    ).toLowerCase();
-
-                    const matchesSearch =
-                        name.includes(search) ||
-                        type.includes(search) ||
-                        breed.includes(search);
-
-                    const matchesStatus =
-                        !this.statusFilter ||
-                        animal.status === this.statusFilter;
-
-                    return matchesSearch && matchesStatus;
-                });
-
-            },
-
-            availableCount() {
-
-                return this.animals.filter(
-                    animal => animal.status === "Available"
-                ).length;
-
-            },
-
-            adoptedCount() {
-
-                return this.animals.filter(
-                    animal => animal.status === "Adopted"
-                ).length;
-
-            },
-
-            careCount() {
-
-                return this.animals.filter(
-                    animal => animal.status === "Under Care"
-                ).length;
-
-            }
-
-        },
-
-        methods: {
-
-            refreshAnimals() {
-                this.animals = getAnimals();
-            },
-
-            statusClass(status) {
-                return getStatusClass(status);
-            },
-
-            removeAnimal(id) {
-
-                deleteAnimal(id);
-
-                this.refreshAnimals();
-
-            }
-
-        }
-
-    });
-
-    pawHavenAnimalsVueApp.mount("#animalsVueApp");
-
-    console.log("Paw Haven Animal Management Vue.js connected.");
-
-    return true;
-}
-
-
-function refreshAnimalManagementView() {
-
-    if (pawHavenAnimalsVueApp) {
-
-        pawHavenAnimalsVueApp.refreshAnimals();
-
-    } else {
-
-        displayAnimals();
-
-        updateAnimalPageStats();
-
     }
 }
 
 
-// =====================================================
-// 14. VUE.JS - APPLICATION MANAGEMENT
-// =====================================================
-
-let pawHavenApplicationsVueApp = null;
-
-function createVueApplicationsApp() {
-
-    const appElement = getElement("applicationsVueApp");
-
-    if (!appElement || typeof Vue === "undefined") {
-        console.warn("Vue.js is unavailable.");
-        return false;
-    }
-
-    if (pawHavenApplicationsVueApp) {
-        pawHavenApplicationsVueApp.refreshApplications();
-        return true;
-    }
-
-    pawHavenApplicationsVueApp = Vue.createApp({
-
-        data() {
-
-            return {
-                applications: getApplications(),
-                searchQuery: "",
-                statusFilter: ""
-            };
-
-        },
-
-        computed: {
-
-            filteredApplications() {
-
-                const search = this.searchQuery
-                    .toLowerCase()
-                    .trim();
-
-                return this.applications.filter(application => {
-
-                    const applicant = String(
-                        application.applicant || ""
-                    ).toLowerCase();
-
-                    const animal = String(
-                        application.animal || ""
-                    ).toLowerCase();
-
-                    const email = String(
-                        application.email || ""
-                    ).toLowerCase();
-
-                    const matchesSearch =
-                        applicant.includes(search) ||
-                        animal.includes(search) ||
-                        email.includes(search);
-
-                    const matchesStatus =
-                        !this.statusFilter ||
-                        application.status === this.statusFilter;
-
-                    return matchesSearch && matchesStatus;
-
-                });
-
-            },
-
-            pendingCount() {
-
-                return this.applications.filter(
-                    application => application.status === "Pending"
-                ).length;
-
-            },
-
-            approvedCount() {
-
-                return this.applications.filter(
-                    application => application.status === "Approved"
-                ).length;
-
-            },
-
-            declinedCount() {
-
-                return this.applications.filter(
-                    application => application.status === "Declined"
-                ).length;
-
-            }
-
-        },
-
-        methods: {
-
-            refreshApplications() {
-                this.applications = getApplications();
-            },
-
-            statusClass(status) {
-                return getStatusClass(status);
-            },
-
-            formatApplicationDate(date) {
-                return formatDate(date);
-            },
-
-            changeStatus(id, newStatus) {
-
-                updateApplicationStatus(id, newStatus);
-
-                this.refreshApplications();
-
-            }
-
-        }
-
-    });
-
-    pawHavenApplicationsVueApp.mount("#applicationsVueApp");
-
-    console.log("Paw Haven Applications Vue.js connected.");
-
-    return true;
-}
-
-
-function refreshApplicationManagementView() {
-
-    if (pawHavenApplicationsVueApp) {
-
-        pawHavenApplicationsVueApp.refreshApplications();
-
-    } else {
-
-        displayApplications();
-
-        updateApplicationStats();
-
-    }
-}
+//part 3//
 
 
 // =====================================================
-// 15. MOBILE MENU AND SIDEBAR
+// 16. MOBILE MENU AND SIDEBAR
 // =====================================================
 
 function setupMobileMenu() {
-
     const menuButton =
         getElement("menuToggle") ||
         getElement("mobileMenuBtn");
@@ -1590,201 +1178,103 @@ function setupMobileMenu() {
     if (!menuButton || !sidebar) return;
 
     menuButton.addEventListener("click", function(event) {
-
         event.stopPropagation();
-
         sidebar.classList.toggle("active");
-
     });
 
     document.addEventListener("click", function(event) {
-
         if (
             !sidebar.contains(event.target) &&
             !menuButton.contains(event.target)
         ) {
             sidebar.classList.remove("active");
         }
-
     });
 }
 
-
 function setActiveSidebarLink() {
-
     const currentPage = window.location.pathname
         .split("/")
         .pop()
         .toLowerCase();
 
-    document.querySelectorAll(
-        ".side-nav a, .ph-navigation a"
-    ).forEach(link => {
-
+    document.querySelectorAll(".side-nav a, .ph-navigation a").forEach(link => {
         link.classList.toggle(
             "active",
             link.getAttribute("href") === currentPage
         );
-
     });
 }
 
 
 // =====================================================
-// 16. PAGE INITIALISATION
+// 17. PAGE INITIALISATION
 // =====================================================
 
-// LOGIN PAGE
-
-function initialiseLoginPage() {
-
-    const loginForm = getElement("loginForm");
-
-    if (loginForm) {
-        loginForm.onsubmit = handleLogin;
-    }
-
-}
-
-
-// REGISTRATION PAGE
-
-function initialiseRegistrationPage() {
-
-    const registrationForm =
-        getElement("registrationForm") ||
-        getElement("registerForm");
-
-    if (registrationForm) {
-        registrationForm.onsubmit = handleRegistration;
-    }
-
-}
-
-
-// DASHBOARD PAGE
-
+// Dashboard page.
 function initialiseDashboardPage() {
-
     if (!getElement("totalAnimals")) return;
 
     updateDashboardStats();
-
     displayRecentAnimals();
-
     createDashboardCharts();
-
 }
 
 
-// ANIMAL MANAGEMENT PAGE
-
+// Animal Management page.
 function initialiseAnimalsPage() {
+    const animalsContainer = getElement("animalsVueApp");
+    const animalsTable = getElement("animalsTable");
 
-    if (!getElement("animalsTable")) return;
+    if (!animalsContainer && !animalsTable) return;
 
     const vueMounted = createVueAnimalApp();
 
     if (!vueMounted) {
-
         displayAnimals();
-
         updateAnimalPageStats();
-
         setupAnimalSearch();
 
+        // Prevent v-cloak from hiding the page if Vue is unavailable.
+        if (animalsContainer) {
+            animalsContainer.removeAttribute("v-cloak");
+        }
     }
 
     const animalForm = getElement("animalForm");
 
     if (animalForm) {
-        animalForm.onsubmit = addAnimal;
+        animalForm.addEventListener("submit", addAnimal);
     }
-
 }
 
 
-// APPLICATIONS PAGE
-
+// Applications page.
 function initialiseApplicationsPage() {
+    const applicationsContainer = getElement("applicationsVueApp");
+    const applicationsTable = getElement("applicationsTable");
 
-    if (!getElement("applicationsTable")) return;
+    if (!applicationsContainer && !applicationsTable) return;
 
     const vueMounted = createVueApplicationsApp();
 
     if (!vueMounted) {
-
         displayApplications();
-
         updateApplicationStats();
-
         setupApplicationSearch();
 
+        // Prevent v-cloak from hiding the page if Vue is unavailable.
+        if (applicationsContainer) {
+            applicationsContainer.removeAttribute("v-cloak");
+        }
     }
-
 }
 
 
-// ABOUT US PAGE
-
+// About Us page.
 function initialiseAboutPage() {
-
     // About Us content is provided directly in about.html.
-
 }
-
-
-// =====================================================
-// 17. MAIN INITIALISATION
-// =====================================================
-
-document.addEventListener("DOMContentLoaded", function() {
-
-    // Check login session.
-
-    checkLoginSession();
-
-    // Display signed-in user information.
-
-    displayUserProfile();
-
-    // Update footer year.
-
-    setText("currentYear", new Date().getFullYear());
-
-    // Connect logout link.
-
-    const logoutLink = getElement("logoutLink");
-
-    if (logoutLink) {
-        logoutLink.addEventListener("click", handleLogout);
-    }
-
-    // Initialise all pages.
-
-    initialiseLoginPage();
-
-    initialiseRegistrationPage();
-
-    initialiseDashboardPage();
-
-    initialiseAnimalsPage();
-
-    initialiseApplicationsPage();
-
-    initialiseAboutPage();
-
-    // Navigation.
-
-    setupMobileMenu();
-
-    setActiveSidebarLink();
-
-    // Update statistics.
-
-    refreshAllStatistics();
-
-});
 
 
 // =====================================================
@@ -1792,7 +1282,6 @@ document.addEventListener("DOMContentLoaded", function() {
 // =====================================================
 
 function createMalaysiaAdoptionChart() {
-
     const chartElement = getElement("malaysiaAdoptionChart");
 
     if (!chartElement) return;
@@ -1809,7 +1298,6 @@ function createMalaysiaAdoptionChart() {
     chartElement.innerHTML = "";
 
     const options = {
-
         series: [{
             name: "Animals Adopted",
             data: [235, 187, 153]
@@ -1870,14 +1358,48 @@ function createMalaysiaAdoptionChart() {
                 }
             }
         }
-
     };
 
-    chartElement._apexChart = new ApexCharts(
-        chartElement,
-        options
-    );
-
+    chartElement._apexChart = new ApexCharts(chartElement, options);
     chartElement._apexChart.render();
-
 }
+
+
+// =====================================================
+// 19. MAIN INITIALISATION
+// =====================================================
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    // Check login session first.
+    checkLoginSession();
+
+    // Display signed-in user information.
+    displayUserProfile();
+
+    // Update footer year.
+    setText("currentYear", new Date().getFullYear());
+
+    // Connect logout link.
+    const logoutLink = getElement("logoutLink");
+
+    if (logoutLink) {
+        logoutLink.addEventListener("click", handleLogout);
+    }
+
+    // Initialise the current page.
+    initialiseLoginPage();
+    initialiseRegistrationPage();
+    initialiseDashboardPage();
+    initialiseAnimalsPage();
+    initialiseApplicationsPage();
+    initialiseAboutPage();
+
+    // Navigation.
+    setupMobileMenu();
+    setActiveSidebarLink();
+
+    // Update statistics.
+    refreshAllStatistics();
+
+});
