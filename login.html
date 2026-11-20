@@ -27,7 +27,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-
 <body class="auth-page">
 
     <div class="auth-layout">
@@ -39,10 +38,8 @@
                 <span class="brand-mark">
                     <i class="fa-solid fa-paw"></i>
                 </span>
-
                 <span>Paw Haven</span>
             </a>
-
 
             <div class="auth-visual-content">
 
@@ -65,17 +62,15 @@
 
             </div>
 
-
             <!-- CURVED IMAGE -->
             <div class="auth-image-wrap">
 
                 <img
                     src="https://www.thesprucepets.com/thmb/TmkFFYY06bbXzrRdVuHgGClvXi0=/2688x0/filters:no_upscale():strip_icc()/close-up-of-hand-holding-a-bird-1277291554-886920995ba54952b8105e128d859881.jpg"
-                    alt="bird"
+                    alt="Bird"
                     class="auth-image">
 
             </div>
-
 
             <!-- IMAGE CAPTION -->
             <div class="auth-image-caption">
@@ -91,20 +86,16 @@
 
             </div>
 
-
             <div class="auth-decoration">
                 <i class="fa-solid fa-paw"></i>
             </div>
 
         </section>
 
-
-
         <!-- RIGHT SIDE: LOGIN FORM -->
         <section class="auth-form-side">
 
             <div class="auth-card">
-
 
                 <!-- TOP NAVIGATION -->
                 <div class="auth-top">
@@ -120,8 +111,6 @@
                     </span>
 
                 </div>
-
-
 
                 <!-- LOGIN HEADING -->
                 <div class="auth-heading">
@@ -142,11 +131,8 @@
 
                 </div>
 
-
-
                 <!-- LOGIN FORM -->
                 <form id="loginForm">
-
 
                     <!-- USERNAME -->
                     <div class="mb-4">
@@ -172,8 +158,6 @@
 
                     </div>
 
-
-
                     <!-- PASSWORD -->
                     <div class="mb-3">
 
@@ -184,7 +168,6 @@
                             </label>
 
                         </div>
-
 
                         <div class="input-icon-wrap">
 
@@ -213,14 +196,14 @@
 
                     </div>
 
-
-
                     <!-- REMEMBER ME -->
                     <div class="login-options">
 
                         <label class="remember-option">
 
-                            <input type="checkbox" id="rememberMe">
+                            <input
+                                type="checkbox"
+                                id="rememberMe">
 
                             <span>Remember me</span>
 
@@ -232,8 +215,6 @@
 
                     </div>
 
-
-
                     <!-- ERROR / SUCCESS MESSAGE -->
                     <div
                         id="loginMessage"
@@ -242,10 +223,10 @@
                         aria-live="polite">
                     </div>
 
-
-
                     <!-- LOGIN BUTTON -->
-                    <button type="submit" class="btn btn-sage login-submit">
+                    <button
+                        type="submit"
+                        class="btn btn-sage login-submit">
 
                         Sign In
 
@@ -253,16 +234,12 @@
 
                     </button>
 
-
                 </form>
-
-
 
                 <!-- REGISTRATION LINK -->
                 <div class="auth-divider">
                     <span>NEW TO PAW HAVEN?</span>
                 </div>
-
 
                 <p class="register-text">
 
@@ -273,8 +250,6 @@
                     </a>
 
                 </p>
-
-
 
                 <!-- DEMO ACCOUNT -->
                 <div class="demo-box">
@@ -296,8 +271,6 @@
 
                 </div>
 
-
-
                 <!-- FOOTER -->
                 <div class="auth-footer">
 
@@ -308,34 +281,28 @@
 
                 </div>
 
-
             </div>
 
         </section>
 
     </div>
 
-
-
     <!-- BOOTSTRAP JAVASCRIPT -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- CUSTOM JAVASCRIPT -->
     <script src="./script.js"></script>
-
-
 
     <!-- SHOW / HIDE PASSWORD -->
     <script>
 
         document.addEventListener("DOMContentLoaded", function () {
 
-            const passwordInput = document.getElementById("password");
+            const passwordInput =
+                document.getElementById("password");
 
-            const toggleButton = document.getElementById("togglePassword");
-
+            const toggleButton =
+                document.getElementById("togglePassword");
 
             if (passwordInput && toggleButton) {
 
@@ -371,18 +338,18 @@
 
             }
 
-
             // Automatic current year
-            const yearElement = document.querySelector("[data-year]");
+            const yearElement =
+                document.querySelector("[data-year]");
 
             if (yearElement) {
-                yearElement.textContent = new Date().getFullYear();
+                yearElement.textContent =
+                    new Date().getFullYear();
             }
 
         });
 
     </script>
-
 
 </body>
 </html>
